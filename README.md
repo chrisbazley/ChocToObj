@@ -952,20 +952,21 @@ map: if a polygon is drawn at all then all of its edges are drawn.
 
 Primitive data format:
 
-  Offset  Size  Data
-       0     1  1st vertex index
-       1     1  2nd vertex index
-       2     1  3rd vertex index (or 0 to terminate a line, or
-                253..255 for patterns)
-       3     1  4th vertex index (or 0 to terminate a triangle, or
-                248..255 for patterns)
-       4     1  5th vertex index (or 0 to terminate a quadrilateral)
-       5     1  6th vertex index (or 0 to terminate a pentagon)
-       6     1  7th vertex index (or 0 to terminate a hexagon)
-       7     1  8th vertex index (or 0 to terminate a heptagon)
-       8     1  Colour number
-       9     3  Ignored
-      12     4  Polygon simplification distance
+|  Offset | Size | Data
+|---------|------|------------------------------------------------------
+|       0 |    1 | 1st vertex index
+|       1 |    1 | 2nd vertex index
+|       2 |    1 | 3rd vertex index (or 0 to terminate a line, or
+|         |      | 253..255 for patterns)
+|       3 |    1 | 4th vertex index (or 0 to terminate a triangle, or
+|         |      | 248..255 for patterns)
+|       4 |    1 | 5th vertex index (or 0 to terminate a quadrilateral)
+|       5 |    1 | 6th vertex index (or 0 to terminate a pentagon)
+|       6 |    1 | 7th vertex index (or 0 to terminate a hexagon)
+|       7 |    1 | 8th vertex index (or 0 to terminate a heptagon)
+|       8 |    1 | Colour number
+|       9 |    3 | Ignored
+|      12 |    4 | Polygon simplification distance
 
 6.3.4 Colour numbers
 --------------------
