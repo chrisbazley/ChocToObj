@@ -3,7 +3,7 @@ Chocks Away to Wavefront convertor
 
 (C) Christopher Bazley, 2018
 
-Version 0.03 (21 Apr 2020)
+Version 0.04 (19 May 2024)
 
 -----------------------------------------------------------------------------
  1   Introduction and Purpose
@@ -1134,28 +1134,26 @@ Patterns triggered on the fourth vertex:
 ------------------
 
 0.01 (02 Sep 2018)
-
-  First public release.
+- First public release.
 
 0.02 (17 Nov 2018)
-
-  Adapted to use CBUtilLib, StreamLib and GKeyLib instead of the monolithic
-version of CBLibrary previously required.
+- Adapted to use CBUtilLib, StreamLib and GKeyLib instead of the monolithic
+  version of CBLibrary previously required.
 
 0.03 (21 Apr 2020)
+- Unnamed objects are now labelled "chocks_<n>" instead of "object_<n>" in
+  the output.
+- Deleted a bad assertion that the error indicator for the output stream is
+  not set before beginning conversion. (The output stream pointer is null when
+  listing or summarizing object definitions.)
+- Failure to close the output stream is now detected and treated like any
+  other error since data may have been lost.
+- Corrected a description of the coordinate system (which is left-handed not
+  right-handed).
 
-  Unnamed objects are now labelled "chocks_<n>" instead of "object_<n>" in
-the output.
-
-  Deleted a bad assertion that the error indicator for the output stream is
-not set before beginning conversion. (The output stream pointer is null when
-listing or summarizing object definitions.)
-
-  Failure to close the output stream is now detected and treated like any
-other error since data may have been lost.
-
-  Corrected a description of the coordinate system (which is left-handed not
-right-handed).
+0.04 (19 May 2024)
+- Added a new makefile for use on Linux.
+- Improved the README.md file for Linux users.
 
 -----------------------------------------------------------------------------
 8  Compiling the software
@@ -1164,14 +1162,16 @@ right-handed).
   Source code is only supplied for the command-line program. To compile
 and link the code you will also require an ISO 9899:1999 standard 'C'
 library and four of my own libraries: 3dObjLib, CBUtilLib, StreamLib and
-GKeyLib. These are available separately from http://starfighter.acornarcade.com/mysite/
+GKeyLib. These are available separately from https://github.com/chrisbazley/
 
-  Two make files are supplied:
+  Three make files are supplied:
 
-1. 'Makefile' is intended for use with Acorn Make Utility (AMU) and the
+1. 'Makefile' is intended for use with GNU Make and the GNU C Compiler on Linux.
+
+2. 'NMakefile' is intended for use with Acorn Make Utility (AMU) and the
    Norcroft C compiler supplied with the Acorn C/C++ Development Suite.
 
-2. 'GMakefile' is intended for use with GNU Make and the GNU C Compiler.
+3. 'GMakefile' is intended for use with GNU Make and the GNU C Compiler on RISC OS.
 
   The APCS variant specified for the Norcroft compiler is 32 bit for
 compatibility with ARMv5 and fpe2 for compatibility with older versions of
@@ -1179,12 +1179,14 @@ the floating point emulator. Generation of unaligned data loads/stores is
 disabled for compatibility with ARMv6. When building the code for release,
 it is linked with RISCOS Ltd's generic C library stubs ('StubsG').
 
-  Before compiling the program for other platforms, rename the C source and
-header files with .c and .h file extensions then move them out of their
-respective subdirectories. The only platform-specific code is the
-PATH_SEPARATOR macro definition in misc.h. This must be defined according to
-the file path convention on the the target platform (e.g. '\' for DOS or
-Windows).
+  Before compiling the library for RISC OS, move the C source and header
+files with .c and .h suffixes into subdirectories named 'c' and 'h' and
+remove those suffixes from their names. You probably also need to create
+'o', 'd' and 'debug' subdirectories for compiler output.
+
+  The only platform-specific code is the PATH_SEPARATOR macro definition
+in misc.h. This must be defined according to the file path convention on
+the the target platform (e.g. '\' for DOS or Windows).
 
 -----------------------------------------------------------------------------
 9  Licence and Disclaimer
