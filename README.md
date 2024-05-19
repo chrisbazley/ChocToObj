@@ -925,7 +925,7 @@ reasons:
    explains why square brown field boundaries are drawn as straight lines
    (annoying for navigation). A small list of exceptions is hardwired into
    the game to allow certain models to be drawn on the map without
-   simplification ˜ for example cross-shaped aerodromes, which would
+   simplification -- for example, cross-shaped aerodromes, which would
    otherwise appear to be missing a runway.
 
   Each vertex index occupies one byte. Vertices are indexed by their
