@@ -1,0 +1,1026 @@
+# Star Fighter 3000 material library
+# Converted by SF3KtoMtl 0.04 [29 Aug 2018]
+
+newmtl black_0
+Kd 0.000000 0.000000 0.000000
+illum 0
+
+newmtl black_1
+Kd 0.066667 0.066667 0.066667
+illum 0
+
+newmtl black_2
+Kd 0.133333 0.133333 0.133333
+illum 0
+
+newmtl black_3
+Kd 0.200000 0.200000 0.200000
+illum 0
+
+newmtl darkmaroon_0
+Kd 0.266667 0.000000 0.000000
+illum 0
+
+newmtl darkmaroon_1
+Kd 0.333333 0.066667 0.066667
+illum 0
+
+newmtl darkmaroon_2
+Kd 0.400000 0.133333 0.133333
+illum 0
+
+newmtl darkmaroon_3
+Kd 0.466667 0.200000 0.200000
+illum 0
+
+newmtl darknavy_0
+Kd 0.000000 0.000000 0.266667
+illum 0
+
+newmtl darknavy_1
+Kd 0.066667 0.066667 0.333333
+illum 0
+
+newmtl darknavy_2
+Kd 0.133333 0.133333 0.400000
+illum 0
+
+newmtl darknavy_3
+Kd 0.200000 0.200000 0.466667
+illum 0
+
+newmtl darkpurple_0
+Kd 0.266667 0.000000 0.266667
+illum 0
+
+newmtl darkpurple_1
+Kd 0.333333 0.066667 0.333333
+illum 0
+
+newmtl darkpurple_2
+Kd 0.400000 0.133333 0.400000
+illum 0
+
+newmtl darkpurple_3
+Kd 0.466667 0.200000 0.466667
+illum 0
+
+newmtl maroon_0
+Kd 0.533333 0.000000 0.000000
+illum 0
+
+newmtl maroon_1
+Kd 0.600000 0.066667 0.066667
+illum 0
+
+newmtl maroon_2
+Kd 0.666667 0.133333 0.133333
+illum 0
+
+newmtl maroon_3
+Kd 0.733333 0.200000 0.200000
+illum 0
+
+newmtl mediumred_0
+Kd 0.800000 0.000000 0.000000
+illum 0
+
+newmtl mediumred_1
+Kd 0.866667 0.066667 0.066667
+illum 0
+
+newmtl mediumred_2
+Kd 0.933333 0.133333 0.133333
+illum 0
+
+newmtl mediumred_3
+Kd 1.000000 0.200000 0.200000
+illum 0
+
+newmtl tyrianpurple_0
+Kd 0.533333 0.000000 0.266667
+illum 0
+
+newmtl tyrianpurple_1
+Kd 0.600000 0.066667 0.333333
+illum 0
+
+newmtl tyrianpurple_2
+Kd 0.666667 0.133333 0.400000
+illum 0
+
+newmtl tyrianpurple_3
+Kd 0.733333 0.200000 0.466667
+illum 0
+
+newmtl crimson_0
+Kd 0.800000 0.000000 0.266667
+illum 0
+
+newmtl crimson_1
+Kd 0.866667 0.066667 0.333333
+illum 0
+
+newmtl crimson_2
+Kd 0.933333 0.133333 0.400000
+illum 0
+
+newmtl crimson_3
+Kd 1.000000 0.200000 0.466667
+illum 0
+
+newmtl darkgreen_0
+Kd 0.000000 0.266667 0.000000
+illum 0
+
+newmtl darkgreen_1
+Kd 0.066667 0.333333 0.066667
+illum 0
+
+newmtl darkgreen_2
+Kd 0.133333 0.400000 0.133333
+illum 0
+
+newmtl darkgreen_3
+Kd 0.200000 0.466667 0.200000
+illum 0
+
+newmtl darkolive_0
+Kd 0.266667 0.266667 0.000000
+illum 0
+
+newmtl darkolive_1
+Kd 0.333333 0.333333 0.066667
+illum 0
+
+newmtl darkolive_2
+Kd 0.400000 0.400000 0.133333
+illum 0
+
+newmtl darkolive_3
+Kd 0.466667 0.466667 0.200000
+illum 0
+
+newmtl darkteal_0
+Kd 0.000000 0.266667 0.266667
+illum 0
+
+newmtl darkteal_1
+Kd 0.066667 0.333333 0.333333
+illum 0
+
+newmtl darkteal_2
+Kd 0.133333 0.400000 0.400000
+illum 0
+
+newmtl darkteal_3
+Kd 0.200000 0.466667 0.466667
+illum 0
+
+newmtl darkgrey_0
+Kd 0.266667 0.266667 0.266667
+illum 0
+
+newmtl darkgrey_1
+Kd 0.333333 0.333333 0.333333
+illum 0
+
+newmtl darkgrey_2
+Kd 0.400000 0.400000 0.400000
+illum 0
+
+newmtl darkgrey_3
+Kd 0.466667 0.466667 0.466667
+illum 0
+
+newmtl brown_0
+Kd 0.533333 0.266667 0.000000
+illum 0
+
+newmtl brown_1
+Kd 0.600000 0.333333 0.066667
+illum 0
+
+newmtl brown_2
+Kd 0.666667 0.400000 0.133333
+illum 0
+
+newmtl brown_3
+Kd 0.733333 0.466667 0.200000
+illum 0
+
+newmtl mahogany_0
+Kd 0.800000 0.266667 0.000000
+illum 0
+
+newmtl mahogany_1
+Kd 0.866667 0.333333 0.066667
+illum 0
+
+newmtl mahogany_2
+Kd 0.933333 0.400000 0.133333
+illum 0
+
+newmtl mahogany_3
+Kd 1.000000 0.466667 0.200000
+illum 0
+
+newmtl cordovan_0
+Kd 0.533333 0.266667 0.266667
+illum 0
+
+newmtl cordovan_1
+Kd 0.600000 0.333333 0.333333
+illum 0
+
+newmtl cordovan_2
+Kd 0.666667 0.400000 0.400000
+illum 0
+
+newmtl cordovan_3
+Kd 0.733333 0.466667 0.466667
+illum 0
+
+newmtl brickred_0
+Kd 0.800000 0.266667 0.266667
+illum 0
+
+newmtl brickred_1
+Kd 0.866667 0.333333 0.333333
+illum 0
+
+newmtl brickred_2
+Kd 0.933333 0.400000 0.400000
+illum 0
+
+newmtl brickred_3
+Kd 1.000000 0.466667 0.466667
+illum 0
+
+newmtl green_0
+Kd 0.000000 0.533333 0.000000
+illum 0
+
+newmtl green_1
+Kd 0.066667 0.600000 0.066667
+illum 0
+
+newmtl green_2
+Kd 0.133333 0.666667 0.133333
+illum 0
+
+newmtl green_3
+Kd 0.200000 0.733333 0.200000
+illum 0
+
+newmtl avocado_0
+Kd 0.266667 0.533333 0.000000
+illum 0
+
+newmtl avocado_1
+Kd 0.333333 0.600000 0.066667
+illum 0
+
+newmtl avocado_2
+Kd 0.400000 0.666667 0.133333
+illum 0
+
+newmtl avocado_3
+Kd 0.466667 0.733333 0.200000
+illum 0
+
+newmtl pigmentgreen_0
+Kd 0.000000 0.533333 0.266667
+illum 0
+
+newmtl pigmentgreen_1
+Kd 0.066667 0.600000 0.333333
+illum 0
+
+newmtl pigmentgreen_2
+Kd 0.133333 0.666667 0.400000
+illum 0
+
+newmtl pigmentgreen_3
+Kd 0.200000 0.733333 0.466667
+illum 0
+
+newmtl ferngreen_0
+Kd 0.266667 0.533333 0.266667
+illum 0
+
+newmtl ferngreen_1
+Kd 0.333333 0.600000 0.333333
+illum 0
+
+newmtl ferngreen_2
+Kd 0.400000 0.666667 0.400000
+illum 0
+
+newmtl ferngreen_3
+Kd 0.466667 0.733333 0.466667
+illum 0
+
+newmtl olive_0
+Kd 0.533333 0.533333 0.000000
+illum 0
+
+newmtl olive_1
+Kd 0.600000 0.600000 0.066667
+illum 0
+
+newmtl olive_2
+Kd 0.666667 0.666667 0.133333
+illum 0
+
+newmtl olive_3
+Kd 0.733333 0.733333 0.200000
+illum 0
+
+newmtl harvestgold_0
+Kd 0.800000 0.533333 0.000000
+illum 0
+
+newmtl harvestgold_1
+Kd 0.866667 0.600000 0.066667
+illum 0
+
+newmtl harvestgold_2
+Kd 0.933333 0.666667 0.133333
+illum 0
+
+newmtl harvestgold_3
+Kd 1.000000 0.733333 0.200000
+illum 0
+
+newmtl darktan_0
+Kd 0.533333 0.533333 0.266667
+illum 0
+
+newmtl darktan_1
+Kd 0.600000 0.600000 0.333333
+illum 0
+
+newmtl darktan_2
+Kd 0.666667 0.666667 0.400000
+illum 0
+
+newmtl darktan_3
+Kd 0.733333 0.733333 0.466667
+illum 0
+
+newmtl peru_0
+Kd 0.800000 0.533333 0.266667
+illum 0
+
+newmtl peru_1
+Kd 0.866667 0.600000 0.333333
+illum 0
+
+newmtl peru_2
+Kd 0.933333 0.666667 0.400000
+illum 0
+
+newmtl peru_3
+Kd 1.000000 0.733333 0.466667
+illum 0
+
+newmtl mediumgreen_0
+Kd 0.000000 0.800000 0.000000
+illum 0
+
+newmtl mediumgreen_1
+Kd 0.066667 0.866667 0.066667
+illum 0
+
+newmtl mediumgreen_2
+Kd 0.133333 0.933333 0.133333
+illum 0
+
+newmtl mediumgreen_3
+Kd 0.200000 1.000000 0.200000
+illum 0
+
+newmtl napiergreen_0
+Kd 0.266667 0.800000 0.000000
+illum 0
+
+newmtl napiergreen_1
+Kd 0.333333 0.866667 0.066667
+illum 0
+
+newmtl napiergreen_2
+Kd 0.400000 0.933333 0.133333
+illum 0
+
+newmtl napiergreen_3
+Kd 0.466667 1.000000 0.200000
+illum 0
+
+newmtl darkpastelgreen_0
+Kd 0.000000 0.800000 0.266667
+illum 0
+
+newmtl darkpastelgreen_1
+Kd 0.066667 0.866667 0.333333
+illum 0
+
+newmtl darkpastelgreen_2
+Kd 0.133333 0.933333 0.400000
+illum 0
+
+newmtl darkpastelgreen_3
+Kd 0.200000 1.000000 0.466667
+illum 0
+
+newmtl limegreen_0
+Kd 0.266667 0.800000 0.266667
+illum 0
+
+newmtl limegreen_1
+Kd 0.333333 0.866667 0.333333
+illum 0
+
+newmtl limegreen_2
+Kd 0.400000 0.933333 0.400000
+illum 0
+
+newmtl limegreen_3
+Kd 0.466667 1.000000 0.466667
+illum 0
+
+newmtl applegreen_0
+Kd 0.533333 0.800000 0.000000
+illum 0
+
+newmtl applegreen_1
+Kd 0.600000 0.866667 0.066667
+illum 0
+
+newmtl applegreen_2
+Kd 0.666667 0.933333 0.133333
+illum 0
+
+newmtl applegreen_3
+Kd 0.733333 1.000000 0.200000
+illum 0
+
+newmtl peridot_0
+Kd 0.800000 0.800000 0.000000
+illum 0
+
+newmtl peridot_1
+Kd 0.866667 0.866667 0.066667
+illum 0
+
+newmtl peridot_2
+Kd 0.933333 0.933333 0.133333
+illum 0
+
+newmtl peridot_3
+Kd 1.000000 1.000000 0.200000
+illum 0
+
+newmtl yellowgreen_0
+Kd 0.533333 0.800000 0.266667
+illum 0
+
+newmtl yellowgreen_1
+Kd 0.600000 0.866667 0.333333
+illum 0
+
+newmtl yellowgreen_2
+Kd 0.666667 0.933333 0.400000
+illum 0
+
+newmtl yellowgreen_3
+Kd 0.733333 1.000000 0.466667
+illum 0
+
+newmtl oldgold_0
+Kd 0.800000 0.800000 0.266667
+illum 0
+
+newmtl oldgold_1
+Kd 0.866667 0.866667 0.333333
+illum 0
+
+newmtl oldgold_2
+Kd 0.933333 0.933333 0.400000
+illum 0
+
+newmtl oldgold_3
+Kd 1.000000 1.000000 0.466667
+illum 0
+
+newmtl navy_0
+Kd 0.000000 0.000000 0.533333
+illum 0
+
+newmtl navy_1
+Kd 0.066667 0.066667 0.600000
+illum 0
+
+newmtl navy_2
+Kd 0.133333 0.133333 0.666667
+illum 0
+
+newmtl navy_3
+Kd 0.200000 0.200000 0.733333
+illum 0
+
+newmtl indigo_0
+Kd 0.266667 0.000000 0.533333
+illum 0
+
+newmtl indigo_1
+Kd 0.333333 0.066667 0.600000
+illum 0
+
+newmtl indigo_2
+Kd 0.400000 0.133333 0.666667
+illum 0
+
+newmtl indigo_3
+Kd 0.466667 0.200000 0.733333
+illum 0
+
+newmtl mediumblue_0
+Kd 0.000000 0.000000 0.800000
+illum 0
+
+newmtl mediumblue_1
+Kd 0.066667 0.066667 0.866667
+illum 0
+
+newmtl mediumblue_2
+Kd 0.133333 0.133333 0.933333
+illum 0
+
+newmtl mediumblue_3
+Kd 0.200000 0.200000 1.000000
+illum 0
+
+newmtl violetblue_0
+Kd 0.266667 0.000000 0.800000
+illum 0
+
+newmtl violetblue_1
+Kd 0.333333 0.066667 0.866667
+illum 0
+
+newmtl violetblue_2
+Kd 0.400000 0.133333 0.933333
+illum 0
+
+newmtl violetblue_3
+Kd 0.466667 0.200000 1.000000
+illum 0
+
+newmtl purple_0
+Kd 0.533333 0.000000 0.533333
+illum 0
+
+newmtl purple_1
+Kd 0.600000 0.066667 0.600000
+illum 0
+
+newmtl purple_2
+Kd 0.666667 0.133333 0.666667
+illum 0
+
+newmtl purple_3
+Kd 0.733333 0.200000 0.733333
+illum 0
+
+newmtl mediumvioletred_0
+Kd 0.800000 0.000000 0.533333
+illum 0
+
+newmtl mediumvioletred_1
+Kd 0.866667 0.066667 0.600000
+illum 0
+
+newmtl mediumvioletred_2
+Kd 0.933333 0.133333 0.666667
+illum 0
+
+newmtl mediumvioletred_3
+Kd 1.000000 0.200000 0.733333
+illum 0
+
+newmtl darkviolet_0
+Kd 0.533333 0.000000 0.800000
+illum 0
+
+newmtl darkviolet_1
+Kd 0.600000 0.066667 0.866667
+illum 0
+
+newmtl darkviolet_2
+Kd 0.666667 0.133333 0.933333
+illum 0
+
+newmtl darkviolet_3
+Kd 0.733333 0.200000 1.000000
+illum 0
+
+newmtl deepmagenta_0
+Kd 0.800000 0.000000 0.800000
+illum 0
+
+newmtl deepmagenta_1
+Kd 0.866667 0.066667 0.866667
+illum 0
+
+newmtl deepmagenta_2
+Kd 0.933333 0.133333 0.933333
+illum 0
+
+newmtl deepmagenta_3
+Kd 1.000000 0.200000 1.000000
+illum 0
+
+newmtl mediumelectricblue_0
+Kd 0.000000 0.266667 0.533333
+illum 0
+
+newmtl mediumelectricblue_1
+Kd 0.066667 0.333333 0.600000
+illum 0
+
+newmtl mediumelectricblue_2
+Kd 0.133333 0.400000 0.666667
+illum 0
+
+newmtl mediumelectricblue_3
+Kd 0.200000 0.466667 0.733333
+illum 0
+
+newmtl darkslateblue_0
+Kd 0.266667 0.266667 0.533333
+illum 0
+
+newmtl darkslateblue_1
+Kd 0.333333 0.333333 0.600000
+illum 0
+
+newmtl darkslateblue_2
+Kd 0.400000 0.400000 0.666667
+illum 0
+
+newmtl darkslateblue_3
+Kd 0.466667 0.466667 0.733333
+illum 0
+
+newmtl royalazure_0
+Kd 0.000000 0.266667 0.800000
+illum 0
+
+newmtl royalazure_1
+Kd 0.066667 0.333333 0.866667
+illum 0
+
+newmtl royalazure_2
+Kd 0.133333 0.400000 0.933333
+illum 0
+
+newmtl royalazure_3
+Kd 0.200000 0.466667 1.000000
+illum 0
+
+newmtl pigmentblue_0
+Kd 0.266667 0.266667 0.800000
+illum 0
+
+newmtl pigmentblue_1
+Kd 0.333333 0.333333 0.866667
+illum 0
+
+newmtl pigmentblue_2
+Kd 0.400000 0.400000 0.933333
+illum 0
+
+newmtl pigmentblue_3
+Kd 0.466667 0.466667 1.000000
+illum 0
+
+newmtl plum_0
+Kd 0.533333 0.266667 0.533333
+illum 0
+
+newmtl plum_1
+Kd 0.600000 0.333333 0.600000
+illum 0
+
+newmtl plum_2
+Kd 0.666667 0.400000 0.666667
+illum 0
+
+newmtl plum_3
+Kd 0.733333 0.466667 0.733333
+illum 0
+
+newmtl mulberry_0
+Kd 0.800000 0.266667 0.533333
+illum 0
+
+newmtl mulberry_1
+Kd 0.866667 0.333333 0.600000
+illum 0
+
+newmtl mulberry_2
+Kd 0.933333 0.400000 0.666667
+illum 0
+
+newmtl mulberry_3
+Kd 1.000000 0.466667 0.733333
+illum 0
+
+newmtl lavenderindigo_0
+Kd 0.533333 0.266667 0.800000
+illum 0
+
+newmtl lavenderindigo_1
+Kd 0.600000 0.333333 0.866667
+illum 0
+
+newmtl lavenderindigo_2
+Kd 0.666667 0.400000 0.933333
+illum 0
+
+newmtl lavenderindigo_3
+Kd 0.733333 0.466667 1.000000
+illum 0
+
+newmtl deepfuchsia_0
+Kd 0.800000 0.266667 0.800000
+illum 0
+
+newmtl deepfuchsia_1
+Kd 0.866667 0.333333 0.866667
+illum 0
+
+newmtl deepfuchsia_2
+Kd 0.933333 0.400000 0.933333
+illum 0
+
+newmtl deepfuchsia_3
+Kd 1.000000 0.466667 1.000000
+illum 0
+
+newmtl teal_0
+Kd 0.000000 0.533333 0.533333
+illum 0
+
+newmtl teal_1
+Kd 0.066667 0.600000 0.600000
+illum 0
+
+newmtl teal_2
+Kd 0.133333 0.666667 0.666667
+illum 0
+
+newmtl teal_3
+Kd 0.200000 0.733333 0.733333
+illum 0
+
+newmtl dustyteal_0
+Kd 0.266667 0.533333 0.533333
+illum 0
+
+newmtl dustyteal_1
+Kd 0.333333 0.600000 0.600000
+illum 0
+
+newmtl dustyteal_2
+Kd 0.400000 0.666667 0.666667
+illum 0
+
+newmtl dustyteal_3
+Kd 0.466667 0.733333 0.733333
+illum 0
+
+newmtl honolulublue_0
+Kd 0.000000 0.533333 0.800000
+illum 0
+
+newmtl honolulublue_1
+Kd 0.066667 0.600000 0.866667
+illum 0
+
+newmtl honolulublue_2
+Kd 0.133333 0.666667 0.933333
+illum 0
+
+newmtl honolulublue_3
+Kd 0.200000 0.733333 1.000000
+illum 0
+
+newmtl celestialblue_0
+Kd 0.266667 0.533333 0.800000
+illum 0
+
+newmtl celestialblue_1
+Kd 0.333333 0.600000 0.866667
+illum 0
+
+newmtl celestialblue_2
+Kd 0.400000 0.666667 0.933333
+illum 0
+
+newmtl celestialblue_3
+Kd 0.466667 0.733333 1.000000
+illum 0
+
+newmtl grey_0
+Kd 0.533333 0.533333 0.533333
+illum 0
+
+newmtl grey_1
+Kd 0.600000 0.600000 0.600000
+illum 0
+
+newmtl grey_2
+Kd 0.666667 0.666667 0.666667
+illum 0
+
+newmtl grey_3
+Kd 0.733333 0.733333 0.733333
+illum 0
+
+newmtl oldrose_0
+Kd 0.800000 0.533333 0.533333
+illum 0
+
+newmtl oldrose_1
+Kd 0.866667 0.600000 0.600000
+illum 0
+
+newmtl oldrose_2
+Kd 0.933333 0.666667 0.666667
+illum 0
+
+newmtl oldrose_3
+Kd 1.000000 0.733333 0.733333
+illum 0
+
+newmtl ube_0
+Kd 0.533333 0.533333 0.800000
+illum 0
+
+newmtl ube_1
+Kd 0.600000 0.600000 0.866667
+illum 0
+
+newmtl ube_2
+Kd 0.666667 0.666667 0.933333
+illum 0
+
+newmtl ube_3
+Kd 0.733333 0.733333 1.000000
+illum 0
+
+newmtl pastelviolet_0
+Kd 0.800000 0.533333 0.800000
+illum 0
+
+newmtl pastelviolet_1
+Kd 0.866667 0.600000 0.866667
+illum 0
+
+newmtl pastelviolet_2
+Kd 0.933333 0.666667 0.933333
+illum 0
+
+newmtl pastelviolet_3
+Kd 1.000000 0.733333 1.000000
+illum 0
+
+newmtl caribbeangreen_0
+Kd 0.000000 0.800000 0.533333
+illum 0
+
+newmtl caribbeangreen_1
+Kd 0.066667 0.866667 0.600000
+illum 0
+
+newmtl caribbeangreen_2
+Kd 0.133333 0.933333 0.666667
+illum 0
+
+newmtl caribbeangreen_3
+Kd 0.200000 1.000000 0.733333
+illum 0
+
+newmtl mint_0
+Kd 0.266667 0.800000 0.533333
+illum 0
+
+newmtl mint_1
+Kd 0.333333 0.866667 0.600000
+illum 0
+
+newmtl mint_2
+Kd 0.400000 0.933333 0.666667
+illum 0
+
+newmtl mint_3
+Kd 0.466667 1.000000 0.733333
+illum 0
+
+newmtl darkturquoise_0
+Kd 0.000000 0.800000 0.800000
+illum 0
+
+newmtl darkturquoise_1
+Kd 0.066667 0.866667 0.866667
+illum 0
+
+newmtl darkturquoise_2
+Kd 0.133333 0.933333 0.933333
+illum 0
+
+newmtl darkturquoise_3
+Kd 0.200000 1.000000 1.000000
+illum 0
+
+newmtl mediumturquoise_0
+Kd 0.266667 0.800000 0.800000
+illum 0
+
+newmtl mediumturquoise_1
+Kd 0.333333 0.866667 0.866667
+illum 0
+
+newmtl mediumturquoise_2
+Kd 0.400000 0.933333 0.933333
+illum 0
+
+newmtl mediumturquoise_3
+Kd 0.466667 1.000000 1.000000
+illum 0
+
+newmtl darkseagreen_0
+Kd 0.533333 0.800000 0.533333
+illum 0
+
+newmtl darkseagreen_1
+Kd 0.600000 0.866667 0.600000
+illum 0
+
+newmtl darkseagreen_2
+Kd 0.666667 0.933333 0.666667
+illum 0
+
+newmtl darkseagreen_3
+Kd 0.733333 1.000000 0.733333
+illum 0
+
+newmtl lightbeige_0
+Kd 0.800000 0.800000 0.533333
+illum 0
+
+newmtl lightbeige_1
+Kd 0.866667 0.866667 0.600000
+illum 0
+
+newmtl lightbeige_2
+Kd 0.933333 0.933333 0.666667
+illum 0
+
+newmtl lightbeige_3
+Kd 1.000000 1.000000 0.733333
+illum 0
+
+newmtl pearlaqua_0
+Kd 0.533333 0.800000 0.800000
+illum 0
+
+newmtl pearlaqua_1
+Kd 0.600000 0.866667 0.866667
+illum 0
+
+newmtl pearlaqua_2
+Kd 0.666667 0.933333 0.933333
+illum 0
+
+newmtl pearlaqua_3
+Kd 0.733333 1.000000 1.000000
+illum 0
+
+newmtl lightgrey_0
+Kd 0.800000 0.800000 0.800000
+illum 0
+
+newmtl lightgrey_1
+Kd 0.866667 0.866667 0.866667
+illum 0
+
+newmtl lightgrey_2
+Kd 0.933333 0.933333 0.933333
+illum 0
+
+newmtl lightgrey_3
+Kd 1.000000 1.000000 1.000000
+illum 0

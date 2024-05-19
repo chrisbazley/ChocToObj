@@ -1,0 +1,56 @@
+# Project:   ChocToObj
+# To use this makefile on RISC OS, you must set UnixEnv$sed$sfix and
+# UnixEnv$make$sfix to include ":debug:d" so that filename suffixes are
+# translated automatically into directory names
+
+# Tools
+CC = gcc
+Link = gcc
+AS = asasm
+# Make cannot understand rules which contain RISC OS path names such as /C:Macros.h as prerequisites, so strip them from the dynamic dependencies
+StripBadPre = sed -r 's@/[A-Za-z]+:[^ ]*@@g' < $*T.d
+DeleteTempDep = delete d.$*T
+
+# Toolflags:
+CCCommonFlags = -c -IC: -mlibscl -mthrowback -Wall -Wextra -Wsign-compare -pedantic -std=c99 -MMD -MP -MF $*T.d
+CCFlags = $(CCCommonFlags) -DNDEBUG -O3
+CCDebugFlags = $(CCCommonFlags) -g -DUSE_CBDEBUG -DDEBUG_OUTPUT -DFORTIFY
+LinkCommonFlags = -LC: -mlibscl -o $@
+LinkFlags = $(LinkCommonFlags) $(addprefix -l,$(ReleaseLibs))
+LinkDebugFlags = $(LinkCommonFlags) $(addprefix -l,$(DebugLibs))
+
+include MakeCommon
+
+DebugObjectsChoc = $(addsuffix .debug,$(ObjectList))
+ReleaseObjectsChoc = $(addsuffix .o,$(ObjectList))
+DebugLibs = Fortify CBDebug CBUtildbg GKeydbg Streamdbg 3dObjdbg
+ReleaseLibs = CBUtil GKey Stream 3dObj
+
+# Final targets:
+all: ChocToObj ChocToObjD 
+
+ChocToObj: $(ReleaseObjectsChoc)
+	$(Link) $(LinkFlags) $(ReleaseObjectsChoc)
+
+ChocToObjD: $(DebugObjectsChoc)
+	$(Link) $(LinkDebugFlags) $(DebugObjectsChoc)
+
+
+# User-editable dependencies:
+.SUFFIXES: .o .c .debug
+.c.debug:
+	$(CC) $(CCDebugFlags) -o $@ $<
+	$(StripBadPre) > $*D.d
+	$(DeleteTempDep)
+.c.o:
+	$(CC) $(CCFlags) -o $@ $<
+	$(StripBadPre) > $*.d
+	$(DeleteTempDep)
+
+# Static dependencies:
+
+# Dynamic dependencies:
+# These files are generated during compilation to track C header #includes.
+# It's not an error if they don't exist.
+-include $(addsuffix .d,$(ObjectList))
+-include $(addsuffix D.d,$(ObjectList))

@@ -1,0 +1,39 @@
+# Project:   ChocToObj
+
+# Tools
+CC = cc
+Link = link
+AS = objasm
+
+# Toolflags:
+CCCommonFlags = -c -depend !Depend -IC: -throwback -fahi -apcs 3/32/fpe2/swst/fp/nofpr -memaccess -L22-S22-L41
+CCflags = $(CCCommonFlags) -DNDEBUG -Otime
+CCDebugFlags = $(CCCommonFlags) -g -DUSE_CBDEBUG -DFORTIFY -DDEBUG_OUTPUT
+Linkflags = -aif -c++
+LinkDebugFlags = $(Linkflags) -d
+
+include MakeCommon
+
+DebugObjectsChoc = $(addprefix debug.,$(ObjectList))
+ReleaseObjectsChoc = $(addprefix o.,$(ObjectList))
+DebugLibs = C:o.Stubs C:o.Fortify C:o.CBDebugLib C:debug.CBUtilLib \
+            C:debug.GKeyLib C:debug.StreamLib C:debug.3dObjLib
+ReleaseLibs = C:o.StubsG C:o.CBUtilLib C:o.GKeyLib C:o.StreamLib C:o.3dObjLib
+
+# Final targets:
+all: ChocToObj ChocToObjD 
+
+ChocToObj: $(ReleaseObjectsChoc)
+	$(Link) $(LinkFlags) -o $@ $(ReleaseObjectsChoc) $(ReleaseLibs)
+
+ChocToObjD: $(DebugObjectsChoc)
+	$(Link) $(LinkDebugFlags) -o $@ $(DebugObjectsChoc) $(DebugLibs)
+
+# User-editable dependencies:
+.SUFFIXES: .o .c .debug
+.c.o:; cc $(CCflags) -o $@ $<
+.c.debug:; cc $(CCDebugFlags) -o $@ $<
+
+# Static dependencies:
+
+# Dynamic dependencies:
