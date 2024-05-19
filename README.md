@@ -1187,7 +1187,7 @@ remove those suffixes from their names. You probably also need to create
 
   The only platform-specific code is the PATH_SEPARATOR macro definition
 in misc.h. This must be defined according to the file path convention on
-the target platform (e.g. '\' for DOS or Windows).
+the target platform (e.g. '\\' for DOS or Windows).
 
 -----------------------------------------------------------------------------
 9  Licence and Disclaimer
