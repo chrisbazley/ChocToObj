@@ -7,6 +7,6 @@
 #ifndef VERSION_H
 #define VERSION_H
 
-#define VERSION_STRING "0.03 [21 Apr 2020]"
+#define VERSION_STRING "0.04 [19 May 2024]"
 
 #endif /* VERSION_H */
