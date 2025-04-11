@@ -184,9 +184,9 @@ static int add_special_vertex(VertexArray * const varray,
   return v;
 }
 
-static Primitive *add_special_primitive(Group * const group)
+static _Optional Primitive *add_special_primitive(Group * const group)
 {
-  Primitive *const primitive = group_add_primitive(group);
+  _Optional Primitive *const primitive = group_add_primitive(group);
   if (primitive == NULL) {
     fprintf(stderr, "Failed to allocate primitive memory for "
             "procedural geometry\n");
@@ -219,26 +219,34 @@ static bool make_special_zigzags(VertexArray * const varray,
   assert(!(flags & ~FLAGS_ALL));
 
   int const p = group_get_num_primitives((*groups) + group);
-  Primitive *const pp = group_get_primitive((*groups) + group, p-1);
-  assert(primitive_get_num_sides(pp) == 3);
+  _Optional Primitive *const pp = group_get_primitive((*groups) + group, p-1);
+  if (!pp) {
+    return false;
+  }
+  assert(primitive_get_num_sides(&*pp) == 3);
 
-  const int vw = primitive_get_side(pp, 0);
-  const int vs = primitive_get_side(pp, 1);
-  const int ve = primitive_get_side(pp, 2);
-  const int id = primitive_get_id(pp);
+  const int vw = primitive_get_side(&*pp, 0);
+  const int vs = primitive_get_side(&*pp, 1);
+  const int ve = primitive_get_side(&*pp, 2);
+  const int id = primitive_get_id(&*pp);
+
+  _Optional Coord (*cw)[3] = vertex_array_get_coords(varray, vw),
+                  (*cs)[3] = vertex_array_get_coords(varray, vs),
+                  (*ce)[3] = vertex_array_get_coords(varray, ve);
+  if (!cw || !cs || !ce) {
+    return false;
+  }
 
   Coord vecl[3], vecw[3];
-  vector_sub(vertex_array_get_coords(varray, ve),
-             vertex_array_get_coords(varray, vs), &vecl);
-  vector_sub(vertex_array_get_coords(varray, vw),
-             vertex_array_get_coords(varray, vs), &vecw);
+  vector_sub(&*ce, &*cs, &vecl);
+  vector_sub(&*cw, &*cs, &vecw);
 
   int vlast = vs;
 
-  primitive_delete_all(pp);
+  primitive_delete_all(&*pp);
 
   for (int d = 0; d < n; ++d) {
-    Primitive *seg = NULL;
+    _Optional Primitive *seg = NULL;
     if (d == 0) {
       seg = pp;
     } else {
@@ -246,7 +254,7 @@ static bool make_special_zigzags(VertexArray * const varray,
       if (seg == NULL) {
         return false;
       }
-      primitive_set_id(seg, id);
+      primitive_set_id(&*seg, id);
     }
 
     Coord coords[3];
@@ -254,17 +262,17 @@ static bool make_special_zigzags(VertexArray * const varray,
     if ((d % 2) == 0) {
       vector_add(&coords, &vecw, &coords);
     }
-    vector_add(vertex_array_get_coords(varray, vs), &coords, &coords);
+    vector_add(&*cs, &coords, &coords);
 
     const int v = add_special_vertex(varray, &coords);
     if (v < 0) {
       return false;
     }
 
-    primitive_set_colour(seg, colour); /* Use the hard-wired colour */
+    primitive_set_colour(&*seg, colour); /* Use the hard-wired colour */
 
-    if ((add_special_side(seg, vlast) < 0) ||
-        (add_special_side(seg, v) < 0)) {
+    if ((add_special_side(&*seg, vlast) < 0) ||
+        (add_special_side(&*seg, v) < 0)) {
       return false;
     }
     vlast = v;
@@ -272,7 +280,7 @@ static bool make_special_zigzags(VertexArray * const varray,
     if (flags & FLAGS_VERBOSE) {
       printf("Special %s; primitive %d in group %d:\n", (d % 2) ? "zag" : "zig",
              group_get_num_primitives((*groups) + group)-1, group);
-      primitive_print(seg, varray);
+      primitive_print(&*seg, varray);
       puts("");
     }
   }
@@ -319,19 +327,27 @@ static bool make_special_hatch(VertexArray * const varray,
   assert(!(flags & ~FLAGS_ALL));
 
   int const p = group_get_num_primitives((*groups) + group);
-  Primitive *const pp = group_get_primitive((*groups) + group, p-1);
-  assert(primitive_get_num_sides(pp) == 3);
+  _Optional Primitive *const pp = group_get_primitive((*groups) + group, p-1);
+  if (!pp) {
+    return false;
+  }
+  assert(primitive_get_num_sides(&*pp) == 3);
 
-  const int vw = primitive_get_side(pp, 0);
-  const int vs = primitive_get_side(pp, 1);
-  const int ve = primitive_get_side(pp, 2);
-  const int id = primitive_get_id(pp);
+  const int vw = primitive_get_side(&*pp, 0);
+  const int vs = primitive_get_side(&*pp, 1);
+  const int ve = primitive_get_side(&*pp, 2);
+  const int id = primitive_get_id(&*pp);
+
+  _Optional Coord (*cw)[3] = vertex_array_get_coords(varray, vw),
+                  (*cs)[3] = vertex_array_get_coords(varray, vs),
+                  (*ce)[3] = vertex_array_get_coords(varray, ve);
+  if (!cw || !cs || !ce) {
+    return false;
+  }
 
   Coord vecl[3], vecw[3];
-  vector_sub(vertex_array_get_coords(varray, ve),
-             vertex_array_get_coords(varray, vs), &vecl);
-  vector_sub(vertex_array_get_coords(varray, vw),
-             vertex_array_get_coords(varray, vs), &vecw);
+  vector_sub(&*ce, &*cs, &vecl);
+  vector_sub(&*cw, &*cs, &vecw);
 
   Coord thickvec[3], negthickvec[3], norm[3], negvecw[3];
   bool thicken = false, reverse = false;
@@ -349,13 +365,13 @@ static bool make_special_hatch(VertexArray * const varray,
     }
   }
 
-  primitive_delete_all(pp);
+  primitive_delete_all(&*pp);
 
   /* There's a fencepost error in the game where it only draws 64 of
      the 65 railway sleepers needed to complete the pattern; the error
      shifts from one end to the other depending on which is nearer. */
   for (int d = 0; d < n; ++d) {
-    Primitive *seg = NULL;
+    _Optional Primitive *seg = NULL;
     if (d == 0) {
       seg = pp;
     } else {
@@ -363,14 +379,14 @@ static bool make_special_hatch(VertexArray * const varray,
       if (seg == NULL) {
         return false;
       }
-      primitive_set_id(seg, id);
+      primitive_set_id(&*seg, id);
     }
 
     int v[4];
     int num_sides = 0;
     Coord coords[3];
     vector_mul(&vecl, (Coord)d/n, &coords);
-    vector_add(vertex_array_get_coords(varray, vs), &coords, &coords);
+    vector_add(&*cs, &coords, &coords);
 
     if (thicken) {
       vector_add(&coords, &thickvec, &coords);
@@ -415,7 +431,7 @@ static bool make_special_hatch(VertexArray * const varray,
 
     for (int s = 0; s < num_sides; ++s) {
       int const t = reverse ? (num_sides - 1 - s) : s;
-      if (add_special_side(seg, v[t]) < 0) {
+      if (add_special_side(&*seg, v[t]) < 0) {
         return false;
       }
     }
@@ -424,15 +440,15 @@ static bool make_special_hatch(VertexArray * const varray,
        same direction) as its container. If not, reverse the direction of all
        future quads. */
     if ((d == 0) && thicken) {
-      reverse = primitive_set_normal(seg, varray, &norm);
+      reverse = primitive_set_normal(&*seg, varray, &norm);
     }
 
-    primitive_set_colour(seg, colour); /* Use the hard-wired colour */
+    primitive_set_colour(&*seg, colour); /* Use the hard-wired colour */
 
     if (flags & FLAGS_VERBOSE) {
       printf("Special parallel; primitive %d in group %d:\n",
              group_get_num_primitives((*groups) + group)-1, group);
-      primitive_print(seg, varray);
+      primitive_print(&*seg, varray);
       puts("");
     }
   }
@@ -455,6 +471,9 @@ static bool make_special_quads(VertexArray * const varray,
 
   int const p = group_get_num_primitives((*groups) + group);
   Primitive *const pp = group_get_primitive((*groups) + group, p-1);
+  if (!pp) {
+    return false;
+  }
   assert(primitive_get_num_sides(pp) == 3);
 
   const int vs = primitive_get_side(pp, 0);
@@ -462,11 +481,16 @@ static bool make_special_quads(VertexArray * const varray,
   const int vw = primitive_get_side(pp, 2);
   const int id = primitive_get_id(pp);
 
+  _Optional Coord (*cw)[3] = vertex_array_get_coords(varray, vw),
+                  (*cs)[3] = vertex_array_get_coords(varray, vs),
+                  (*ce)[3] = vertex_array_get_coords(varray, ve);
+  if (!cw || !cs || !ce) {
+    return false;
+  }
+
   Coord vecl[3], vecw[3];
-  vector_sub(vertex_array_get_coords(varray, ve),
-             vertex_array_get_coords(varray, vs), &vecl);
-  vector_sub(vertex_array_get_coords(varray, vw),
-             vertex_array_get_coords(varray, vs), &vecw);
+  vector_sub(&*ce, &*cs, &vecl);
+  vector_sub(&*cw, &*cs, &vecw);
 
 
   Coord norm[3];
@@ -489,10 +513,9 @@ static bool make_special_quads(VertexArray * const varray,
     int v[4];
     Coord quad_start[3];
     vector_mul(&vecl, (Coord)d/n, &quad_start);
-    vector_add(vertex_array_get_coords(varray, vs), &quad_start,
-               &quad_start);
+    vector_add(&*cs, &quad_start, &quad_start);
 
-    Primitive *quad = NULL, *back_quad = NULL;
+    _Optional Primitive *quad = NULL, *back_quad = NULL;
 
     if (d == 0) {
       quad = pp;
@@ -502,7 +525,7 @@ static bool make_special_quads(VertexArray * const varray,
       if (quad == NULL) {
         return false;
       }
-      primitive_set_id(quad, id);
+      primitive_set_id(&*quad, id);
 
       v[num_sides] = add_special_vertex(varray, &quad_start);
       if (v[num_sides++] < 0) {
@@ -535,7 +558,7 @@ static bool make_special_quads(VertexArray * const varray,
 
     for (int s = 0; s < num_sides; ++s) {
       int const t = reverse ? (num_sides - 1 - s) : s;
-      if (add_special_side(quad, v[t]) < 0) {
+      if (add_special_side(&*quad, v[t]) < 0) {
         return false;
       }
     }
@@ -544,16 +567,16 @@ static bool make_special_quads(VertexArray * const varray,
        same direction) as its container. If not, reverse the direction of all
        future quads. */
     if ((d == 0) && got_normal) {
-      reverse = primitive_set_normal(quad, varray, &norm);
+      reverse = primitive_set_normal(&*quad, varray, &norm);
     }
 
-    primitive_set_colour(quad, colour); /* Use the hard-wired colour */
+    primitive_set_colour(&*quad, colour); /* Use the hard-wired colour */
 
     if (flags & FLAGS_VERBOSE) {
       printf("Special %sparallelogram; primitive %d in group %d:\n",
              got_normal ? "" : "front ",
              group_get_num_primitives((*groups) + group)-1, group);
-      primitive_print(quad, varray);
+      primitive_print(&*quad, varray);
       puts("");
     }
 
@@ -568,13 +591,13 @@ static bool make_special_quads(VertexArray * const varray,
     if (back_quad == NULL) {
       return false;
     }
-    primitive_set_id(back_quad, id);
-    primitive_set_colour(back_quad, colour);
+    primitive_set_id(&*back_quad, id);
+    primitive_set_colour(&*back_quad, colour);
 
     assert(!reverse);
     for (int s = 0; s < num_sides; ++s) {
       int const t = num_sides - 1 - s;
-      if (add_special_side(back_quad, v[t]) < 0) {
+      if (add_special_side(&*back_quad, v[t]) < 0) {
         return false;
       }
     }
@@ -582,7 +605,7 @@ static bool make_special_quads(VertexArray * const varray,
     if (flags & FLAGS_VERBOSE) {
       printf("Special back parallelogram; primitive %d in group %d:\n",
              group_get_num_primitives((*groups) + group)-1, group);
-      primitive_print(back_quad, varray);
+      primitive_print(&*back_quad, varray);
       puts("");
     }
   }
@@ -604,28 +627,36 @@ static bool make_special_points(VertexArray * const varray,
   assert(!(flags & ~FLAGS_ALL));
 
   int const p = group_get_num_primitives((*groups) + group);
-  Primitive *const pp = group_get_primitive((*groups) + group, p-1);
-  assert(primitive_get_num_sides(pp) == 3);
+  _Optional Primitive *const pp = group_get_primitive((*groups) + group, p-1);
+  if (!pp) {
+    return false;
+  }
+  assert(primitive_get_num_sides(&*pp) == 3);
 
-  const int vs = primitive_get_side(pp, 0);
-  const int ve = primitive_get_side(pp, 1);
+  const int vs = primitive_get_side(&*pp, 0);
+  const int ve = primitive_get_side(&*pp, 1);
   /* The third vertex is ignored */
-  const int id = primitive_get_id(pp);
+  const int id = primitive_get_id(&*pp);
+
+  _Optional Coord (*cs)[3] = vertex_array_get_coords(varray, vs),
+                  (*ce)[3] = vertex_array_get_coords(varray, ve);
+  if (!cs || !ce) {
+    return false;
+  }
 
   Coord vec[3];
-  vector_sub(vertex_array_get_coords(varray, ve),
-             vertex_array_get_coords(varray, vs), &vec);
+  vector_sub(&*ce, &*cs, &vec);
 
   Coord twicen = (int)(n * 2);
 
-  primitive_delete_all(pp);
+  primitive_delete_all(&*pp);
 
   for (int d = 0; d < n; ++d) {
     Coord coords[3];
     vector_mul(&vec, (int)((d * 2) + 1)/twicen, &coords);
-    vector_add(vertex_array_get_coords(varray, vs), &coords, &coords);
+    vector_add(&*cs, &coords, &coords);
 
-    Primitive *point = NULL;
+    _Optional Primitive *point = NULL;
     if (d == 0) {
       point = pp;
     } else {
@@ -633,23 +664,23 @@ static bool make_special_points(VertexArray * const varray,
       if (point == NULL) {
         return false;
       }
-      primitive_set_id(point, id);
+      primitive_set_id(&*point, id);
     }
 
-    primitive_set_colour(point, colour); /* Use the hard-wired colour */
+    primitive_set_colour(&*point, colour); /* Use the hard-wired colour */
 
     const int v = add_special_vertex(varray, &coords);
     if (v < 0) {
       return false;
     }
-    if (add_special_side(point, v) < 0) {
+    if (add_special_side(&*point, v) < 0) {
       return false;
     }
 
     if (flags & FLAGS_VERBOSE) {
       printf("Special point; primitive %d in group %d:\n",
              group_get_num_primitives((*groups) + group)-1, group);
-      primitive_print(point, varray);
+      primitive_print(&*point, varray);
       puts("");
     }
   }
@@ -673,16 +704,24 @@ static bool make_special_dashed(VertexArray * const varray,
   assert(!(flags & ~FLAGS_ALL));
 
   int const p = group_get_num_primitives((*groups) + group);
-  Primitive *const pp = group_get_primitive((*groups) + group, p-1);
-  assert(primitive_get_num_sides(pp) == 2);
+  _Optional Primitive *const pp = group_get_primitive((*groups) + group, p-1);
+  if (!pp) {
+    return false;
+  }
+  assert(primitive_get_num_sides(&*pp) == 2);
 
-  const int vs = primitive_get_side(pp, 0);
-  const int ve = primitive_get_side(pp, 1);
-  const int id = primitive_get_id(pp);
+  const int vs = primitive_get_side(&*pp, 0);
+  const int ve = primitive_get_side(&*pp, 1);
+  const int id = primitive_get_id(&*pp);
+
+  _Optional Coord (*cs)[3] = vertex_array_get_coords(varray, vs),
+                  (*ce)[3] = vertex_array_get_coords(varray, ve);
+  if (!cs || !ce) {
+    return false;
+  }
 
   Coord vec[3];
-  vector_sub(vertex_array_get_coords(varray, ve),
-             vertex_array_get_coords(varray, vs), &vec);
+  vector_sub(&*ce, &*cs, &vec);
 
   Coord dashl[3];
   vector_mul(&vec, 1/((Coord)n * 2), &dashl);
@@ -702,16 +741,16 @@ static bool make_special_dashed(VertexArray * const varray,
     }
   }
 
-  primitive_delete_all(pp);
+  primitive_delete_all(&*pp);
 
   for (int d = 0; d < n; ++d) {
     int v[4];
     int num_sides = 0;
     Coord coords[3];
     vector_mul(&vec, (Coord)d/n, &coords);
-    vector_add(vertex_array_get_coords(varray, vs), &coords, &coords);
+    vector_add(&*cs, &coords, &coords);
 
-    Primitive *dash = NULL;
+    _Optional Primitive *dash = NULL;
     if (d == 0) {
       dash = pp;
     } else {
@@ -719,7 +758,7 @@ static bool make_special_dashed(VertexArray * const varray,
       if (dash == NULL) {
         return false;
       }
-      primitive_set_id(dash, id);
+      primitive_set_id(&*dash, id);
     }
 
     if (thicken) {
@@ -765,7 +804,7 @@ static bool make_special_dashed(VertexArray * const varray,
 
     for (int s = 0; s < num_sides; ++s) {
       int const t = reverse ? (num_sides - 1 - s) : s;
-      if (add_special_side(dash, v[t]) < 0) {
+      if (add_special_side(&*dash, v[t]) < 0) {
         return false;
       }
     }
@@ -774,15 +813,15 @@ static bool make_special_dashed(VertexArray * const varray,
        same direction) as its container. If not, reverse the direction of all
        future quads. */
     if ((d == 0) && thicken) {
-      reverse = primitive_set_normal(dash, varray, &norm);
+      reverse = primitive_set_normal(&*dash, varray, &norm);
     }
 
-    primitive_set_colour(dash, colour); /* Use the hard-wired colour */
+    primitive_set_colour(&*dash, colour); /* Use the hard-wired colour */
 
     if (flags & FLAGS_VERBOSE) {
       printf("Special dash; primitive %d in group %d:\n",
              group_get_num_primitives((*groups) + group)-1, group);
-      primitive_print(dash, varray);
+      primitive_print(&*dash, varray);
       puts("");
     }
   }
@@ -802,15 +841,23 @@ static bool thicken_line(VertexArray * const varray,
   assert(!(flags & ~FLAGS_ALL));
 
   int const p = group_get_num_primitives((*groups) + group);
-  Primitive *const pp = group_get_primitive((*groups) + group, p-1);
-  assert(primitive_get_num_sides(pp) == 2);
+  _Optional Primitive *const pp = group_get_primitive((*groups) + group, p-1);
+  if (!pp) {
+    return false;
+  }
+  assert(primitive_get_num_sides(&*pp) == 2);
 
-  const int vs = primitive_get_side(pp, 0);
-  const int ve = primitive_get_side(pp, 1);
+  const int vs = primitive_get_side(&*pp, 0);
+  const int ve = primitive_get_side(&*pp, 1);
+
+  _Optional Coord (*cs)[3] = vertex_array_get_coords(varray, vs),
+                  (*ce)[3] = vertex_array_get_coords(varray, ve);
+  if (!cs || !ce) {
+    return false;
+  }
 
   Coord vec[3];
-  vector_sub(vertex_array_get_coords(varray, ve),
-             vertex_array_get_coords(varray, vs), &vec);
+  vector_sub(&*ce, &*cs, &vec);
 
   Coord thickvec[3], norm[3];
   bool thicken = false;
@@ -831,7 +878,7 @@ static bool thicken_line(VertexArray * const varray,
     vector_mul(&thickvec, -2, &negthickvec);
     vector_mul(&vec, -1, &negvec);
 
-    vector_add(vertex_array_get_coords(varray, vs), &thickvec, &coords);
+    vector_add(&*cs, &thickvec, &coords);
     v[num_sides] = add_special_vertex(varray, &coords);
     if (v[num_sides++] < 0) {
       return false;
@@ -855,17 +902,17 @@ static bool thicken_line(VertexArray * const varray,
       return false;
     }
 
-    primitive_delete_all(pp);
+    primitive_delete_all(&*pp);
 
     for (int s = 0; s < num_sides; ++s) {
-      if (add_special_side(pp, v[s]) < 0) {
+      if (add_special_side(&*pp, v[s]) < 0) {
         return false;
       }
     }
 
     /* Ensure that the quad has the same normal vector (i.e. faces the
        same direction) as its container. */
-    (void)primitive_set_normal(pp, varray, &norm);
+    (void)primitive_set_normal(&*pp, varray, &norm);
   }
 
   return true;
@@ -884,8 +931,11 @@ static void flip_backfacing(VertexArray * const varray,
   for (int g = 0; g < Group_Count; ++g) {
     int const n = group_get_num_primitives((*groups) + g);
     for (int p = 0; p < n; ++p) {
-      Primitive *const pp = group_get_primitive((*groups) + g, p);
-      if (primitive_set_normal(pp, varray, &norm)) {
+      _Optional Primitive *const pp = group_get_primitive((*groups) + g, p);
+      if (!pp) {
+        continue;
+      }
+      if (primitive_set_normal(&*pp, varray, &norm)) {
         if (flags & FLAGS_VERBOSE) {
           printf("Flipped ground polygon %d in group %d\n", p, g);
         }
@@ -935,13 +985,13 @@ static bool parse_primitives(Reader * const r, const int object_count,
              group, primitive_start, primitive_start);
     }
 
-    Primitive * const pp = group_add_primitive((*groups) + group);
+    _Optional Primitive * const pp = group_add_primitive((*groups) + group);
     if (pp == NULL) {
       fprintf(stderr, "Failed to allocate primitive memory "
               "(primitive %d of object %d)\n", p, object_count);
       return false;
     }
-    primitive_set_id(pp, group_get_num_primitives((*groups) + group));
+    primitive_set_id(&*pp, group_get_num_primitives((*groups) + group));
 
     /* We need to read the primitive definition into a temporary array so
        that we can get its simplification distance before validating the
@@ -974,7 +1024,7 @@ static bool parse_primitives(Reader * const r, const int object_count,
               p, object_count);
       return false;
     }
-    primitive_set_colour(pp, colour);
+    primitive_set_colour(&*pp, colour);
 
     if (reader_fseek(r, PaddingBeforePrimSimpDist, SEEK_CUR)) {
       fprintf(stderr, "Failed to seek polygon simplification distance "
@@ -1141,14 +1191,17 @@ static bool parse_primitives(Reader * const r, const int object_count,
       --v;
 
       if (all_z_0) {
-        Coord (* const coords)[3] = vertex_array_get_coords(varray, v);
+        _Optional Coord (* const coords)[3] = vertex_array_get_coords(varray, v);
+        if (!coords) {
+          return false;
+        }
         if (!coord_equal((*coords)[2], 0)) {
           DEBUGF("Not a flat object (vertex %d, z==%g)\n", v, (*coords)[2]);
           all_z_0 = false;
         }
       }
 
-      if (primitive_add_side(pp, v) < 0) {
+      if (primitive_add_side(&*pp, v) < 0) {
         fprintf(stderr, "Failed to add side: too many sides? "
                         "(side %d of primitive %d of object %d)\n",
                 s, p, object_count);
@@ -1161,17 +1214,17 @@ static bool parse_primitives(Reader * const r, const int object_count,
       /* Inverting the Z coordinate axis makes all primitives back-facing
          unless we also reverse the order in which their vertices are
          specified. */
-      primitive_reverse_sides(pp);
+      primitive_reverse_sides(&*pp);
 #endif
 
-      const int num_sides = primitive_get_num_sides(pp);
+      const int num_sides = primitive_get_num_sides(&*pp);
       if (num_sides < MinNumSides) {
         fprintf(stderr, "Bad side count %d (primitive %d of object %d)\n",
                 num_sides, p, object_count);
         return false;
       }
 
-      int const side = primitive_get_skew_side(pp, varray);
+      int const side = primitive_get_skew_side(&*pp, varray);
       if (side >= 0) {
         fprintf(stderr, "Warning: skew polygon detected "
                         "(side %d of primitive %d of object %d)\n",
@@ -1190,7 +1243,7 @@ static bool parse_primitives(Reader * const r, const int object_count,
       if (flags & FLAGS_VERBOSE) {
         printf("Primitive %d in group %d:\n",
                group_get_num_primitives((*groups) + group) - 1, group);
-        primitive_print(pp, varray);
+        primitive_print(&*pp, varray);
         puts("");
       }
     }
@@ -1237,7 +1290,10 @@ static void mark_vertices(VertexArray * const varray,
       const int nvertices = vertex_array_get_num_vertices(varray);
       for (int v = 0; v < nvertices; ++v) {
         if (!vertex_array_is_used(varray, v)) {
-          Coord (*coords)[3] = vertex_array_get_coords(varray, v);
+          _Optional Coord (*coords)[3] = vertex_array_get_coords(varray, v);
+          if (!coords) {
+            continue;
+          }
           printf("Vertex %d {%g,%g,%g} is unused (object %d)\n", v,
                  (*coords)[0], (*coords)[1], (*coords)[2], object_count);
           ++count;
@@ -1269,7 +1325,7 @@ static char const *style_to_string(int32_t pstyle)
   return s;
 }
 
-static int get_false_colour(const Primitive *pp, void *arg)
+static int get_false_colour(const Primitive *pp, _Optional void *arg)
 {
   NOT_USED(pp);
   NOT_USED(arg);
@@ -1281,7 +1337,7 @@ static int get_false_colour(const Primitive *pp, void *arg)
 }
 
 static int get_human_material(char *buf, size_t buf_size,
-                              int const colour, void *arg)
+                              int const colour, _Optional void *arg)
 {
   NOT_USED(arg);
   return snprintf(buf, buf_size, "%s_%d",
@@ -1289,7 +1345,7 @@ static int get_human_material(char *buf, size_t buf_size,
 }
 
 static int get_material(char *const buf, size_t const buf_size,
-                        int const colour, void *arg)
+                        int const colour, _Optional void *arg)
 {
   NOT_USED(arg);
   return snprintf(buf, buf_size, "riscos_%d", colour);
@@ -1504,7 +1560,7 @@ static bool process_object(Reader * const r, FILE * const out,
         !output_primitives(out, object_name, *vtotal, vobject,
                            varray, *groups, ARRAY_SIZE(*groups),
                            (flags & FLAGS_FALSE_COLOUR) ?
-                             get_false_colour : NULL,
+                             get_false_colour : (output_primitives_get_colour *)NULL,
                            (flags & FLAGS_HUMAN_READABLE) ?
                              get_human_material : get_material,
                            NULL, vstyle, mstyle)) {
@@ -1534,7 +1590,7 @@ static bool process_object(Reader * const r, FILE * const out,
 
 bool choc_to_obj(Reader * const index, Reader * const models,
                  FILE * const out, const int first, const int last,
-                 const char * const name, const long int data_start,
+                 _Optional const char * const name, const long int data_start,
                  const char * const mtl_file, double const thick,
                  const unsigned int flags)
 {
@@ -1618,7 +1674,7 @@ bool choc_to_obj(Reader * const index, Reader * const models,
                                        get_obj_name(object_count);
 
       if (name != NULL) {
-        if (!strcmp(name, object_name)) {
+        if (!strcmp(&*name, object_name)) {
           /* Stop after finding the named object (assuming there are
              no others of the same name) */
           stop = true;

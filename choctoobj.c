@@ -48,17 +48,17 @@ enum {
 };
 
 static bool process_file(const char * const model_file,
-                         const char * const index_file,
-                         const char * const output_file,
+                         _Optional const char * const index_file,
+                         _Optional const char * const output_file,
                          const int first, const int last,
-                         const char * const name,
+                         _Optional const char * const name,
                          const long int data_start,
                          const char * const mtl_file,
                          double const thick,
                          const unsigned int flags, const bool time,
                          const bool raw)
 {
-  FILE *out = NULL, *index = NULL, *models = NULL;
+  _Optional FILE *out = NULL, *index = NULL, *models = NULL;
   bool success = true;
 
   assert(model_file != NULL);
@@ -80,7 +80,7 @@ static bool process_file(const char * const model_file,
       if (flags & FLAGS_VERBOSE)
         printf("Opening index file '%s'\n", index_file);
 
-      index = fopen(index_file, "rb");
+      index = fopen(&*index_file, "rb");
       if (index == NULL) {
         fprintf(stderr, "Failed to open index file '%s': %s\n",
                         index_file, strerror(errno));
@@ -100,7 +100,7 @@ static bool process_file(const char * const model_file,
       if (flags & FLAGS_VERBOSE)
         printf("Opening output file '%s'\n", output_file);
 
-      out = fopen(output_file, "w");
+      out = fopen(&*output_file, "w");
       if (out == NULL) {
         fprintf(stderr, "Failed to open output file '%s': %s\n",
                         output_file, strerror(errno));
@@ -112,26 +112,26 @@ static bool process_file(const char * const model_file,
     }
   }
 
-  if (success) {
+  if (success && models) {
     const clock_t start_time = time ? clock() : 0;
 
     Reader rmodels;
     if (raw) {
-      reader_raw_init(&rmodels, models);
+      reader_raw_init(&rmodels, &*models);
     } else {
-      success = reader_gkey_init(&rmodels, HistoryLog2, models);
+      success = reader_gkey_init(&rmodels, HistoryLog2, &*models);
     }
 
-    if (success) {
+    if (success && index) {
       Reader rindex;
       if (raw) {
-        reader_raw_init(&rindex, index);
+        reader_raw_init(&rindex, &*index);
       } else {
-        success = reader_gkey_init(&rindex, HistoryLog2, index);
+        success = reader_gkey_init(&rindex, HistoryLog2, &*index);
       }
 
-      if (success) {
-        success = choc_to_obj(&rindex, &rmodels, out, first, last, name,
+      if (success && out) {
+        success = choc_to_obj(&rindex, &rmodels, &*out, first, last, name,
                               data_start, mtl_file, thick, flags);
         reader_destroy(&rindex);
       }
@@ -149,30 +149,31 @@ static bool process_file(const char * const model_file,
   if (models != NULL) {
     if (flags & FLAGS_VERBOSE)
       puts("Closing model data file");
-    fclose(models);
+    fclose(&*models);
   }
 
   if (index != NULL && index != stdin) {
     if (flags & FLAGS_VERBOSE)
       puts("Closing index file");
-    fclose(index);
+    fclose(&*index);
   }
 
   if (out != NULL && out != stdout) {
     if (flags & FLAGS_VERBOSE)
       puts("Closing output file");
 
-    if (fclose(out)) {
+    if (fclose(&*out)) {
       fprintf(stderr, "Failed to close output file '%s': %s\n",
-                      output_file, strerror(errno));
+                      STRING_OR_NULL(output_file), strerror(errno));
       success = false;
     }
   }
 
   /* Delete malformed output unless debugging is enabled or
      it may actually be the index (still intact) */
-  if (!success && !(flags & FLAGS_VERBOSE) && out != NULL && out != stdout) {
-    remove(output_file);
+  if (!success && !(flags & FLAGS_VERBOSE) && out != NULL && out != stdout &&
+      output_file) {
+    remove(&*output_file);
   }
 
   return success;
@@ -254,11 +255,11 @@ int main(int argc, const char *argv[])
   long int data_start = 0;
   unsigned int flags = 0;
   double thick = 0.0;
-  const char *name = NULL;
+  _Optional const char *name = NULL;
   bool time = false, raw = false;
   int rtn = EXIT_SUCCESS;
-  const char *model_file = NULL, *output_file = NULL, *index_file = NULL,
-             *mtl_file = "sf3k.mtl";
+  _Optional const char *output_file = NULL, *index_file = NULL;
+  const char *model_file, *mtl_file = "sf3k.mtl";
 
   assert(argc > 0);
   assert(argv != NULL);

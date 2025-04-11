@@ -53,7 +53,7 @@ const char *get_obj_name(const int index)
     { 30, "triplane" },    /* 'FOKKER VIII TRIPLANE' */
     { 31, "scout" },       /* 'ALBATROS DIII SCOUT' */
   };
-  const char *n = NULL;
+  _Optional const char *n = NULL;
   assert(index >= 0);
 
   for (size_t i = 0; (n == NULL) && (i < ARRAY_SIZE(names)); ++i) {
@@ -67,7 +67,7 @@ const char *get_obj_name(const int index)
     n = buffer;
   }
 
-  return n;
+  return &*n;
 }
 
 const char *get_obj_name_extra(const int index)
@@ -98,7 +98,7 @@ const char *get_obj_name_extra(const int index)
     { 107, "ground_jet" },  /* 'JET FIGHTER' */
     { 108, "jet" }          /* 'JET FIGHTER' */
   };
-  const char *n = NULL;
+  _Optional const char *n = NULL;
   assert(index >= 0);
 
   for (size_t i = 0; (n == NULL) && (i < ARRAY_SIZE(names)); ++i) {
@@ -111,5 +111,5 @@ const char *get_obj_name_extra(const int index)
     n = get_obj_name(index);
   }
 
-  return n;
+  return &*n;
 }
