@@ -1560,7 +1560,7 @@ static bool process_object(Reader * const r, FILE * const out,
         !output_primitives(out, object_name, *vtotal, vobject,
                            varray, *groups, ARRAY_SIZE(*groups),
                            (flags & FLAGS_FALSE_COLOUR) ?
-                             get_false_colour : (output_primitives_get_colour *)NULL,
+                             get_false_colour : (OutputPrimitivesGetColourFn *)NULL,
                            (flags & FLAGS_HUMAN_READABLE) ?
                              get_human_material : get_material,
                            NULL, vstyle, mstyle)) {
