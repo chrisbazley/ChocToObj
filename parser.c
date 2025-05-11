@@ -470,16 +470,16 @@ static bool make_special_quads(VertexArray * const varray,
   assert(!(flags & ~FLAGS_ALL));
 
   int const p = group_get_num_primitives((*groups) + group);
-  Primitive *const pp = group_get_primitive((*groups) + group, p-1);
+  _Optional Primitive *const pp = group_get_primitive((*groups) + group, p-1);
   if (!pp) {
     return false;
   }
-  assert(primitive_get_num_sides(pp) == 3);
+  assert(primitive_get_num_sides(&*pp) == 3);
 
-  const int vs = primitive_get_side(pp, 0);
-  const int ve = primitive_get_side(pp, 1);
-  const int vw = primitive_get_side(pp, 2);
-  const int id = primitive_get_id(pp);
+  const int vs = primitive_get_side(&*pp, 0);
+  const int ve = primitive_get_side(&*pp, 1);
+  const int vw = primitive_get_side(&*pp, 2);
+  const int id = primitive_get_id(&*pp);
 
   _Optional Coord (*cw)[3] = vertex_array_get_coords(varray, vw),
                   (*cs)[3] = vertex_array_get_coords(varray, vs),
@@ -498,15 +498,15 @@ static bool make_special_quads(VertexArray * const varray,
   bool got_normal = find_container_normal(varray, *groups, group, &norm);
   if (!got_normal) {
     /* Try to find a container facing the opposite direction */
-    primitive_reverse_sides(pp);
+    primitive_reverse_sides(&*pp);
     got_normal = find_container_normal(varray, *groups, group, &norm);
-    primitive_reverse_sides(pp);
+    primitive_reverse_sides(&*pp);
   }
 
   Coord quadl[3];
   vector_mul(&vecl, 1/((Coord)n * 2), &quadl);
 
-  primitive_delete_all(pp);
+  primitive_delete_all(&*pp);
 
   for (int d = 0; d < n; ++d) {
     int num_sides = 0;
@@ -1325,7 +1325,7 @@ static char const *style_to_string(int32_t pstyle)
   return s;
 }
 
-static int get_false_colour(const Primitive *pp, _Optional void *arg)
+static int get_false_colour(const Primitive *pp, void *arg)
 {
   NOT_USED(pp);
   NOT_USED(arg);
@@ -1337,7 +1337,7 @@ static int get_false_colour(const Primitive *pp, _Optional void *arg)
 }
 
 static int get_human_material(char *buf, size_t buf_size,
-                              int const colour, _Optional void *arg)
+                              int const colour, void *arg)
 {
   NOT_USED(arg);
   return snprintf(buf, buf_size, "%s_%d",
@@ -1345,7 +1345,7 @@ static int get_human_material(char *buf, size_t buf_size,
 }
 
 static int get_material(char *const buf, size_t const buf_size,
-                        int const colour, _Optional void *arg)
+                        int const colour, void *arg)
 {
   NOT_USED(arg);
   return snprintf(buf, buf_size, "riscos_%d", colour);
@@ -1563,7 +1563,7 @@ static bool process_object(Reader * const r, FILE * const out,
                              get_false_colour : (OutputPrimitivesGetColourFn *)NULL,
                            (flags & FLAGS_HUMAN_READABLE) ?
                              get_human_material : get_material,
-                           NULL, vstyle, mstyle)) {
+                           (void *)NULL, vstyle, mstyle)) {
       fprintf(stderr, "Failed writing to output file: %s\n",
               strerror(errno));
       return false;

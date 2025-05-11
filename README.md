@@ -3,7 +3,7 @@ Chocks Away to Wavefront convertor
 
 (C) Christopher Bazley, 2018
 
-Version 0.06 (13 Apr 2025)
+Version 0.07 (11 May 2025)
 
 -----------------------------------------------------------------------------
  1   Introduction and Purpose
@@ -1161,6 +1161,14 @@ Patterns triggered on the fourth vertex:
 
 0.06 (13 Apr 2025)
 - Use the renamed output_primitives_get_(colour|material) types.
+
+0.07 (11 May 2025)
+- Replaced local definitions with an Optional.h header shared with other
+  programs.
+- The output_primitives function doesn't accept unvarnished null as a
+  callback argument anymore.
+- Fix treatment of the return value of group_get_primitive (which can be
+  null) in the make_special_quads function.
 
 -----------------------------------------------------------------------------
 8  Compiling the software
