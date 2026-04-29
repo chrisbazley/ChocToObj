@@ -10,7 +10,9 @@
 #define PI (3.1415926535897896)
 
 /* Modify this definition for Unix or Windows file paths. */
+#ifndef PATH_SEPARATOR
 #define PATH_SEPARATOR '.'
+#endif
 
 #define ARRAY_SIZE(array) (sizeof(array) / sizeof((array)[0]))
 
