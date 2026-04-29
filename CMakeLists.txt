@@ -1,0 +1,35 @@
+cmake_minimum_required(VERSION 3.11)
+project(ChocToObj C)
+
+include(FetchContent)
+
+FetchContent_Declare(CBUtil GIT_REPOSITORY https://github.com/chrisbazley/CBUtilLib.git GIT_TAG main)
+FetchContent_Declare(Stream GIT_REPOSITORY https://github.com/chrisbazley/StreamLib.git GIT_TAG main)
+FetchContent_Declare(3dObj GIT_REPOSITORY https://github.com/chrisbazley/3dObjLib.git GIT_TAG main)
+
+FetchContent_MakeAvailable(CBUtil Stream 3dObj)
+
+set(CMAKE_C_STANDARD 99)
+add_compile_options(-Wall -Wextra -Wsign-compare -pedantic)
+
+set(SOURCES 
+    choctoobj.c parser.c findnorm.c names.c colours.c
+)
+
+add_executable(ChocToObj ${SOURCES})
+
+target_link_libraries(ChocToObj PRIVATE 
+    CBUtil
+    Stream
+    3dObj
+    m
+)
+
+target_compile_definitions(ChocToObj PRIVATE
+    $<$<CONFIG:Debug>:DEBUG_OUTPUT>
+    $<$<CONFIG:Release>:NDEBUG>
+)
+
+target_compile_options(ChocToObj PRIVATE
+    $<$<CONFIG:Release>:-O3>
+)
