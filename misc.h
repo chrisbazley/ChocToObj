@@ -43,6 +43,8 @@
 
 #ifdef USE_OPTIONAL
 #include "Optional.h"
+#else
+#define _Optional
 #endif
 
 #define STRING_OR_NULL(s) ((s) == NULL ? "" : &*(s))
