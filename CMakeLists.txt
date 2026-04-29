@@ -10,7 +10,26 @@ FetchContent_Declare(3dObj GIT_REPOSITORY https://github.com/chrisbazley/3dObjLi
 FetchContent_MakeAvailable(CBUtil Stream 3dObj)
 
 set(CMAKE_C_STANDARD 99)
-add_compile_options(-Wall -Wextra -Wsign-compare -pedantic)
+add_compile_options(-pedantic)
+
+if(MSVC)
+    # MSVC equivalent of -Wall -Wextra is /W4
+    add_compile_options(/W4)
+else()
+    # For GCC and Clang
+    add_compile_options(-Wall -Wextra -Wsign-compare)
+endif()
+
+if(WIN32)
+    add_compile_definitions(PATH_SEPARATOR='\\\\')
+    add_compile_definitions(EXT_SEPARATOR='.')
+elseif(CMAKE_SYSTEM_NAME STREQUAL "RISCos")
+    add_compile_definitions(PATH_SEPARATOR='.')
+    add_compile_definitions(EXT_SEPARATOR='/')
+else()
+    add_compile_definitions(PATH_SEPARATOR='/')
+    add_compile_definitions(EXT_SEPARATOR='.')
+endif()
 
 set(SOURCES 
     choctoobj.c parser.c findnorm.c names.c colours.c
