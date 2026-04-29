@@ -41,7 +41,6 @@ target_link_libraries(ChocToObj PRIVATE
     CBUtil
     Stream
     3dObj
-    m
 )
 
 target_compile_definitions(ChocToObj PRIVATE
