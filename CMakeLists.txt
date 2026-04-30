@@ -45,8 +45,5 @@ target_link_libraries(ChocToObj PRIVATE
 target_compile_definitions(ChocToObj PRIVATE
     $<$<CONFIG:Debug>:DEBUG_OUTPUT>
     $<$<CONFIG:Release>:NDEBUG>
-)
-
-target_compile_options(ChocToObj PRIVATE
     $<$<CONFIG:Release>:-O3>
 )
