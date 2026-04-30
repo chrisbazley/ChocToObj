@@ -10,14 +10,13 @@ FetchContent_Declare(3dObj GIT_REPOSITORY https://github.com/chrisbazley/3dObjLi
 FetchContent_MakeAvailable(CBUtil Stream 3dObj)
 
 set(CMAKE_C_STANDARD 99)
-add_compile_options(-pedantic)
 
 if(MSVC)
     # MSVC equivalent of -Wall -Wextra is /W4
     add_compile_options(/W4)
 else()
     # For GCC and Clang
-    add_compile_options(-Wall -Wextra -Wsign-compare)
+    add_compile_options(-Wall -Wextra -Wsign-compare -pedantic)
 endif()
 
 if(WIN32)
