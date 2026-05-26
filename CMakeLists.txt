@@ -34,7 +34,9 @@ set(SOURCES
     choctoobj.c parser.c findnorm.c names.c colours.c
 )
 
-add_executable(ChocToObj ${SOURCES})
+file(GLOB HEADER_FILES CONFIGURE_DEPENDS "*.h")
+
+add_executable(ChocToObj ${SOURCES} ${HEADER_FILES})
 
 target_link_libraries(ChocToObj PRIVATE 
     CBUtil
