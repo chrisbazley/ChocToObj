@@ -11,7 +11,13 @@
 
 /* Modify this definition for Unix or Windows file paths. */
 #ifndef PATH_SEPARATOR
+#ifdef _WIN32
+#define PATH_SEPARATOR '\\'
+#elif defined(ACORN_C)
 #define PATH_SEPARATOR '.'
+#else
+#define PATH_SEPARATOR '/'
+#endif
 #endif
 
 #define ARRAY_SIZE(array) (sizeof(array) / sizeof((array)[0]))
