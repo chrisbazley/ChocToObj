@@ -1174,12 +1174,18 @@ Patterns triggered on the fourth vertex:
 8  Compiling the software
 -------------------------
 
-  Source code is only supplied for the command-line program. To compile
-and link the code you will also require an ISO 9899:1999 standard 'C'
-library and four of my own libraries: 3dObjLib, CBUtilLib, StreamLib and
-GKeyLib. These are available separately from https://github.com/chrisbazley/
+  If you have CMake, a build system generator, then you can use it to
+fetch libraries that are dependencies of this program and build the
+libraries and program with minimal manual intervention.
 
-  Three make files are supplied:
+For example, use the following commands to build on Linux:
+```
+  cmake -G 'Unix Makefiles' -S . -B build
+  cd build
+  make
+```
+
+  Three make files are also supplied:
 
 1. 'Makefile' is intended for use with GNU Make and the GNU C Compiler on Linux.
 
@@ -1202,6 +1208,11 @@ remove those suffixes from their names. You probably also need to create
   The only platform-specific code is the PATH_SEPARATOR macro definition
 in misc.h. This must be defined according to the file path convention on
 the target platform (e.g. '\\' for DOS or Windows).
+
+  Source code is only supplied for the command-line program. To compile
+and link the code you will also require an ISO 9899:1999 standard 'C'
+library and four of my own libraries: 3dObjLib, CBUtilLib, StreamLib and
+GKeyLib. These are available separately from https://github.com/chrisbazley/
 
 -----------------------------------------------------------------------------
 9  Licence and Disclaimer
