@@ -26,7 +26,7 @@
 #define NOT_USED(x) ((void)(x))
 
 #ifdef FORTIFY
-#include "Fortify.h"
+#include "fortify.h"
 #endif
 
 #ifdef USE_CBDEBUG
