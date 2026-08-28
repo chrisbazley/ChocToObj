@@ -1351,7 +1351,7 @@ static int get_material(char *const buf, size_t const buf_size,
   return snprintf(buf, buf_size, "riscos_%d", colour);
 }
 
-static bool process_object(Reader * const r, FILE * const out,
+static bool process_object(Reader * const r, _Optional FILE * const out,
                            const char * const object_name,
                            const int object_count,
                            VertexArray * const varray,
@@ -1589,7 +1589,7 @@ static bool process_object(Reader * const r, FILE * const out,
 }
 
 bool choc_to_obj(Reader * const index, Reader * const models,
-                 FILE * const out, const int first, const int last,
+                 _Optional FILE * const out, const int first, const int last,
                  _Optional const char * const name, const long int data_start,
                  const char * const mtl_file, double const thick,
                  const unsigned int flags)

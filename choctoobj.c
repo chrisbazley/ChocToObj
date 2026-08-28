@@ -139,8 +139,8 @@ static bool process_file(const char * const model_file,
         success = reader_gkey_init(&rindex, HistoryLog2, &*index);
       }
 
-      if (success && out) {
-        success = choc_to_obj(&rindex, &rmodels, &*out, first, last, name,
+      if (success) {
+        success = choc_to_obj(&rindex, &rmodels, out, first, last, name,
                               data_start, mtl_file, thick, flags);
         reader_destroy(&rindex);
       }

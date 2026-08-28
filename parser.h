@@ -18,7 +18,8 @@
 #define _Optional
 #endif
 
-bool choc_to_obj(Reader *index, Reader *models, FILE *out, const int first,
+bool choc_to_obj(Reader *index, Reader *models, _Optional FILE *out,
+                 const int first,
                  const int last, _Optional const char *name,
                  const long int data_start, const char *mtl_file,
                  double const thick, const unsigned int flags);
