@@ -184,6 +184,18 @@ static int add_special_vertex(VertexArray * const varray,
   return v;
 }
 
+static bool copy_vertex_coords(VertexArray * const varray, int const vertex,
+                               Coord (* const coords)[3])
+{
+  _Optional Coord (* const source)[3] =
+      vertex_array_get_coords(varray, vertex);
+  if (!source) {
+    return false;
+  }
+  memcpy(coords, &*source, sizeof(*coords));
+  return true;
+}
+
 static _Optional Primitive *add_special_primitive(Group * const group)
 {
   _Optional Primitive *const primitive = group_add_primitive(group);
@@ -230,16 +242,16 @@ static bool make_special_zigzags(VertexArray * const varray,
   const int ve = primitive_get_side(&*pp, 2);
   const int id = primitive_get_id(&*pp);
 
-  _Optional Coord (*cw)[3] = vertex_array_get_coords(varray, vw),
-                  (*cs)[3] = vertex_array_get_coords(varray, vs),
-                  (*ce)[3] = vertex_array_get_coords(varray, ve);
-  if (!cw || !cs || !ce) {
+  Coord cw[3], cs[3], ce[3];
+  if (!copy_vertex_coords(varray, vw, &cw) ||
+      !copy_vertex_coords(varray, vs, &cs) ||
+      !copy_vertex_coords(varray, ve, &ce)) {
     return false;
   }
 
   Coord vecl[3], vecw[3];
-  vector_sub(&*ce, &*cs, &vecl);
-  vector_sub(&*cw, &*cs, &vecw);
+  vector_sub(&ce, &cs, &vecl);
+  vector_sub(&cw, &cs, &vecw);
 
   int vlast = vs;
 
@@ -262,7 +274,7 @@ static bool make_special_zigzags(VertexArray * const varray,
     if ((d % 2) == 0) {
       vector_add(&coords, &vecw, &coords);
     }
-    vector_add(&*cs, &coords, &coords);
+    vector_add(&cs, &coords, &coords);
 
     const int v = add_special_vertex(varray, &coords);
     if (v < 0) {
@@ -338,16 +350,16 @@ static bool make_special_hatch(VertexArray * const varray,
   const int ve = primitive_get_side(&*pp, 2);
   const int id = primitive_get_id(&*pp);
 
-  _Optional Coord (*cw)[3] = vertex_array_get_coords(varray, vw),
-                  (*cs)[3] = vertex_array_get_coords(varray, vs),
-                  (*ce)[3] = vertex_array_get_coords(varray, ve);
-  if (!cw || !cs || !ce) {
+  Coord cw[3], cs[3], ce[3];
+  if (!copy_vertex_coords(varray, vw, &cw) ||
+      !copy_vertex_coords(varray, vs, &cs) ||
+      !copy_vertex_coords(varray, ve, &ce)) {
     return false;
   }
 
   Coord vecl[3], vecw[3];
-  vector_sub(&*ce, &*cs, &vecl);
-  vector_sub(&*cw, &*cs, &vecw);
+  vector_sub(&ce, &cs, &vecl);
+  vector_sub(&cw, &cs, &vecw);
 
   Coord thickvec[3], negthickvec[3], norm[3], negvecw[3];
   bool thicken = false, reverse = false;
@@ -386,7 +398,7 @@ static bool make_special_hatch(VertexArray * const varray,
     int num_sides = 0;
     Coord coords[3];
     vector_mul(&vecl, (Coord)d/n, &coords);
-    vector_add(&*cs, &coords, &coords);
+    vector_add(&cs, &coords, &coords);
 
     if (thicken) {
       vector_add(&coords, &thickvec, &coords);
@@ -481,16 +493,16 @@ static bool make_special_quads(VertexArray * const varray,
   const int vw = primitive_get_side(&*pp, 2);
   const int id = primitive_get_id(&*pp);
 
-  _Optional Coord (*cw)[3] = vertex_array_get_coords(varray, vw),
-                  (*cs)[3] = vertex_array_get_coords(varray, vs),
-                  (*ce)[3] = vertex_array_get_coords(varray, ve);
-  if (!cw || !cs || !ce) {
+  Coord cw[3], cs[3], ce[3];
+  if (!copy_vertex_coords(varray, vw, &cw) ||
+      !copy_vertex_coords(varray, vs, &cs) ||
+      !copy_vertex_coords(varray, ve, &ce)) {
     return false;
   }
 
   Coord vecl[3], vecw[3];
-  vector_sub(&*ce, &*cs, &vecl);
-  vector_sub(&*cw, &*cs, &vecw);
+  vector_sub(&ce, &cs, &vecl);
+  vector_sub(&cw, &cs, &vecw);
 
 
   Coord norm[3];
@@ -513,7 +525,7 @@ static bool make_special_quads(VertexArray * const varray,
     int v[4];
     Coord quad_start[3];
     vector_mul(&vecl, (Coord)d/n, &quad_start);
-    vector_add(&*cs, &quad_start, &quad_start);
+    vector_add(&cs, &quad_start, &quad_start);
 
     _Optional Primitive *quad = NULL, *back_quad = NULL;
 
@@ -638,14 +650,14 @@ static bool make_special_points(VertexArray * const varray,
   /* The third vertex is ignored */
   const int id = primitive_get_id(&*pp);
 
-  _Optional Coord (*cs)[3] = vertex_array_get_coords(varray, vs),
-                  (*ce)[3] = vertex_array_get_coords(varray, ve);
-  if (!cs || !ce) {
+  Coord cs[3], ce[3];
+  if (!copy_vertex_coords(varray, vs, &cs) ||
+      !copy_vertex_coords(varray, ve, &ce)) {
     return false;
   }
 
   Coord vec[3];
-  vector_sub(&*ce, &*cs, &vec);
+  vector_sub(&ce, &cs, &vec);
 
   Coord twicen = (int)(n * 2);
 
@@ -654,7 +666,7 @@ static bool make_special_points(VertexArray * const varray,
   for (int d = 0; d < n; ++d) {
     Coord coords[3];
     vector_mul(&vec, (int)((d * 2) + 1)/twicen, &coords);
-    vector_add(&*cs, &coords, &coords);
+    vector_add(&cs, &coords, &coords);
 
     _Optional Primitive *point = NULL;
     if (d == 0) {
@@ -714,14 +726,14 @@ static bool make_special_dashed(VertexArray * const varray,
   const int ve = primitive_get_side(&*pp, 1);
   const int id = primitive_get_id(&*pp);
 
-  _Optional Coord (*cs)[3] = vertex_array_get_coords(varray, vs),
-                  (*ce)[3] = vertex_array_get_coords(varray, ve);
-  if (!cs || !ce) {
+  Coord cs[3], ce[3];
+  if (!copy_vertex_coords(varray, vs, &cs) ||
+      !copy_vertex_coords(varray, ve, &ce)) {
     return false;
   }
 
   Coord vec[3];
-  vector_sub(&*ce, &*cs, &vec);
+  vector_sub(&ce, &cs, &vec);
 
   Coord dashl[3];
   vector_mul(&vec, 1/((Coord)n * 2), &dashl);
@@ -748,7 +760,7 @@ static bool make_special_dashed(VertexArray * const varray,
     int num_sides = 0;
     Coord coords[3];
     vector_mul(&vec, (Coord)d/n, &coords);
-    vector_add(&*cs, &coords, &coords);
+    vector_add(&cs, &coords, &coords);
 
     _Optional Primitive *dash = NULL;
     if (d == 0) {
@@ -850,14 +862,14 @@ static bool thicken_line(VertexArray * const varray,
   const int vs = primitive_get_side(&*pp, 0);
   const int ve = primitive_get_side(&*pp, 1);
 
-  _Optional Coord (*cs)[3] = vertex_array_get_coords(varray, vs),
-                  (*ce)[3] = vertex_array_get_coords(varray, ve);
-  if (!cs || !ce) {
+  Coord cs[3], ce[3];
+  if (!copy_vertex_coords(varray, vs, &cs) ||
+      !copy_vertex_coords(varray, ve, &ce)) {
     return false;
   }
 
   Coord vec[3];
-  vector_sub(&*ce, &*cs, &vec);
+  vector_sub(&ce, &cs, &vec);
 
   Coord thickvec[3], norm[3];
   bool thicken = false;
@@ -878,7 +890,7 @@ static bool thicken_line(VertexArray * const varray,
     vector_mul(&thickvec, -2, &negthickvec);
     vector_mul(&vec, -1, &negvec);
 
-    vector_add(&*cs, &thickvec, &coords);
+    vector_add(&cs, &thickvec, &coords);
     v[num_sides] = add_special_vertex(varray, &coords);
     if (v[num_sides++] < 0) {
       return false;
