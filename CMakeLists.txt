@@ -102,3 +102,44 @@ target_link_libraries(ChocToObj PRIVATE
 target_compile_definitions(ChocToObj PRIVATE
     $<$<CONFIG:Debug>:DEBUG_OUTPUT>
 )
+
+find_program(PYTHON_EXECUTABLE NAMES python3 python)
+if(NOT PYTHON_EXECUTABLE)
+    message(FATAL_ERROR "Python 3 is required for the integration tests")
+endif()
+execute_process(
+    COMMAND "${PYTHON_EXECUTABLE}" -c
+        "import sys; raise SystemExit(sys.version_info[0] < 3)"
+    RESULT_VARIABLE python_version_result
+)
+if(NOT python_version_result EQUAL 0)
+    message(FATAL_ERROR "Python 3 is required for the integration tests")
+endif()
+
+enable_testing()
+add_test(NAME ChocToObjIntegrationTest COMMAND ${CMAKE_COMMAND}
+    -D CHOCTOOBJ=$<TARGET_FILE:ChocToObj>
+    -D PYTHON_EXECUTABLE=${PYTHON_EXECUTABLE}
+    -D DEBUG_OUTPUT=$<CONFIG:Debug>
+    -P ${CMAKE_CURRENT_SOURCE_DIR}/RunTests.cmake
+)
+set_tests_properties(ChocToObjIntegrationTest PROPERTIES
+    TIMEOUT 300
+    LABELS integration
+)
+
+if(USE_FORTIFY)
+    add_test(NAME ChocToObjFortifyFailureTest COMMAND ${CMAKE_COMMAND}
+        -D CHOCTOOBJ=$<TARGET_FILE:ChocToObj>
+        -D PYTHON_EXECUTABLE=${PYTHON_EXECUTABLE}
+        -D DEBUG_OUTPUT=$<CONFIG:Debug>
+        -D FORTIFY_FAILURE_TEST=TRUE
+        -P ${CMAKE_CURRENT_SOURCE_DIR}/RunTests.cmake
+    )
+    set_tests_properties(ChocToObjFortifyFailureTest PROPERTIES
+        ENVIRONMENT "CHOC_FORTIFY_FAILURE_SIMULATION=1"
+        LABELS "integration;fortify"
+        RUN_SERIAL TRUE
+        TIMEOUT 300
+    )
+endif()

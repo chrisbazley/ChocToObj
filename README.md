@@ -1130,8 +1130,31 @@ Patterns triggered on the fourth vertex:
    o
   3rd
 ```
+
 -----------------------------------------------------------------------------
-7  Program history
+7 Changes to the output of the program
+--------------------------------------
+
+  Object names generated automatically by the converter now use the
+"chocks" prefix instead of "object".
+
+  Deterministic selection of representative vertices having identical
+coordinates changes vertex ordering and corresponding face indices for
+objects 21 and 34 when converting Land with Obj3D, and for objects 20,
+34, 84 and 88 when converting Extra/Land with Extra/Obj3D0. These are
+representational changes only; their geometry is unchanged.
+
+  The converter now avoids clipping against polygons that are not convex.
+This changes objects 127 and 145 when converting Land with Obj3D. It also
+changes objects 113–117, 123–130, 134–138 and 146–148 when converting
+Extra/LandEx1 with Extra/Obj3D1; these contain degenerate zero-area
+polygons. The old clipping algorithm subdivided neighbouring polygons
+using these invalid polygons. The new output leaves the neighbouring
+polygons intact, reducing the number of vertices and faces without
+changing their visible area or colour.
+
+-----------------------------------------------------------------------------
+8  Program history
 ------------------
 
 0.01 (02 Sep 2018)
@@ -1170,8 +1193,15 @@ Patterns triggered on the fourth vertex:
 - Fix treatment of the return value of group_get_primitive (which can be
   null) in the make_special_quads function.
 
+0.08 (DD MMM YYYY)
+- No longer attempts to clip non-convex polygons. This prevents assertion
+  failures in debug builds but also changes the output for two bowtie-shaped
+  objects amongst others.
+- Ordering of different vertices that have equal coordinates should now be
+  stable instead of depending on the C library's implementation of qsort.
+
 -----------------------------------------------------------------------------
-8  Compiling the software
+9  Compiling the software
 -------------------------
 
   If you have CMake, a build system generator, then you can use it to
@@ -1181,9 +1211,21 @@ libraries and program with minimal manual intervention.
 For example, use the following commands to build on Linux:
 ```
   cmake -G 'Unix Makefiles' -S . -B build
-  cd build
-  make
+  cmake --build build
+  ctest --test-dir build --output-on-failure
 ```
+
+  The integration test downloads the APDL Flight Simulator Games Collection
+ISO and the published Chocks Away object meshes, verifies both downloads by
+SHA-256 checksum, extracts the original and Extra Missions data, and checks
+the converter's output and command-line interface. Internet access is needed
+the first time it runs; CMake reuses the verified downloads thereafter.
+
+  A build configured with `-DUSE_FORTIFY=ON` also has a focused integration
+test that simulates every allocation and intercepted I/O failure while
+converting one object. Failure simulation is disabled for ordinary program
+runs. Set `CHOC_FORTIFY_FAILURE_SIMULATION=1` to enable it, and optionally set
+`CHOC_FORTIFY_FAILURE_ATTEMPTS` to a positive number to limit the attempts.
 
   Three make files are also supplied:
 
@@ -1215,8 +1257,8 @@ library and four of my own libraries: 3dObjLib, CBUtilLib, StreamLib and
 GKeyLib. These are available separately from https://github.com/chrisbazley/
 
 -----------------------------------------------------------------------------
-9  Licence and Disclaimer
--------------------------
+10  Licence and Disclaimer
+--------------------------
 
   This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public Licence as published by the Free
@@ -1233,7 +1275,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 675 Mass Ave, Cambridge, MA 02139, USA.
 
 -----------------------------------------------------------------------------
-10  Credits
+11  Credits
 -----------
 
   ChocToObj was designed and programmed by Christopher Bazley.
@@ -1251,7 +1293,7 @@ Thanks to Keith McKillop for suggesting this source.
   The game Chocks Away is (C) 1990, The Fourth Dimension.
 
 -----------------------------------------------------------------------------
-11  Contact details
+12  Contact details
 -------------------
 
   Feel free to contact me with any bug reports, suggestions or anything else.
