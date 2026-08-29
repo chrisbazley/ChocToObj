@@ -1153,6 +1153,10 @@ using these invalid polygons. The new output leaves the neighbouring
 polygons intact, reducing the number of vertices and faces without
 changing their visible area or colour.
 
+  Zero coordinates now have the canonical representation "0.000000" in OBJ
+output. Earlier versions could emit the equivalent representation
+"-0.000000", most commonly after reversing the sign of a zero Z coordinate.
+
 -----------------------------------------------------------------------------
 8  Program history
 ------------------
@@ -1199,6 +1203,7 @@ changing their visible area or colour.
   objects amongst others.
 - Ordering of different vertices that have equal coordinates should now be
   stable instead of depending on the C library's implementation of qsort.
+- Zero coordinates in OBJ output are now written without a negative sign.
 
 -----------------------------------------------------------------------------
 9  Compiling the software

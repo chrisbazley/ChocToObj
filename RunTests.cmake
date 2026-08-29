@@ -179,20 +179,20 @@ endif()
 
 # Published conversions from chocmesh.zip and its taskobey file.
 convert_and_verify(chocks
-    b01fa588a7cfcf3b2d9971bc56b04ac40ac602ad89ef78e5595592a0fb7b355e
+    de5ceab03e30e443f61fa546cd9175921304b55fe46c0bcfd2f5982ba8ec4b68
     ${PUBLISHED_OPTIONS} "${LAND}" "${OBJ3D}")
 convert_and_verify(extra
-    20d86493eb0c30bc200817aedc85603c21f9849d1b97126355899b8fc32c12cd
+    80c32f5f6f245ca400dfe87360ea5568aa7269b076b3cce4316453c7a77ca9a3
     ${PUBLISHED_OPTIONS} -extra -raw -last 108
     "${EXTRA_DIR}/Land" "${EXTRA_DIR}/Obj3D0")
 
 set(EXTRA_SUFFIXES 0 1 4 5 E)
 set(EXTRA_HASHES
-    8ae310d232f422b9f7ecca5f26adbd883a598cc36457f6466abc63ff111f4031
-    2155503905838c30789478f159dfbbd5c1650d7b1f5ed65baba4ba84e51b5eac
-    43017d3b91c71a2bb65bce21f505d15a57b5546d1f2ea1613c5d85b8dafe1ddf
-    f5522ee01ad59bb83d3ba36a8fe023a8557bb60babb9fc284bcf8f1405685959
-    eb349f55c73395f4dfb7b470ca20158b1600a93bbb344f3b1ff89024af0c965c)
+    5b8f986f68c00b2cf06e8bbbdb479ab922ccc712b9a954aeaee215429cbf014c
+    96376170ba02c4b4cb1e7b8ed35583e0b0ee0f9d90f39878086bba7728dd48c5
+    5f17d37ce35d3b779df4dc482b775c86e083a0e0af28851fbe297a5364db6dfd
+    b5f95d7f67ab88d43fe1c97d9c89f664427818a5c700b2b0d51c89daa379d5f1
+    aefefb66b6a8fa327d3a199b42b303063e813f0d88ac94531a8b399fba153351)
 foreach(index RANGE 0 4)
     list(GET EXTRA_SUFFIXES ${index} suffix)
     list(GET EXTRA_HASHES ${index} hash)
