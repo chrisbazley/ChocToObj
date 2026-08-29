@@ -3,7 +3,7 @@
 
 import argparse
 import struct
-from pathlib import Path
+from pathlib import Path, PurePosixPath
 
 
 SECTOR_SIZE = 2048
@@ -65,7 +65,7 @@ class ISO9660:
 
     def find(self, path):
         record = self.root
-        for component in Path(path).parts:
+        for component in PurePosixPath(path).parts:
             if component in ("/", ""):
                 continue
             wanted = normalize_identifier(component)
