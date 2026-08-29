@@ -289,7 +289,7 @@ endif()
 
 foreach(option IN ITEMS -verbose -debug -time)
     set(test_output "${OUTPUT_DIR}/diagnostic.obj")
-    execute_process(COMMAND "${CHOCTOOBJ}" ${option} -name tiger
+    execute_process(COMMAND "${CHOCTOOBJ}" ${option} ${TIGER_OPTIONS}
         -outfile "${test_output}" "${LAND}" "${OBJ3D}"
         RESULT_VARIABLE command_result OUTPUT_VARIABLE command_stdout)
     if(NOT command_result EQUAL 0)
@@ -300,7 +300,7 @@ foreach(option IN ITEMS -verbose -debug -time)
         message(FATAL_ERROR "Timer output was malformed")
     endif()
     verify_body_checksum(
-        "${test_output}" "abbreviated-switch output" "${TIGER_HASH}")
+        "${test_output}" "${option} output" "${TIGER_HASH}")
 endforeach()
 
 set(test_output "${OUTPUT_DIR}/abbreviated.obj")
