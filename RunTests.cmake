@@ -179,7 +179,7 @@ endif()
 
 # Published conversions from chocmesh.zip and its taskobey file.
 convert_and_verify(chocks
-    de5ceab03e30e443f61fa546cd9175921304b55fe46c0bcfd2f5982ba8ec4b68
+    96623799732406a6432505deb5f671e2b99df10d1d5bbc852853a4ac220d6985
     ${PUBLISHED_OPTIONS} "${LAND}" "${OBJ3D}")
 convert_and_verify(extra
     80c32f5f6f245ca400dfe87360ea5568aa7269b076b3cce4316453c7a77ca9a3
@@ -188,7 +188,7 @@ convert_and_verify(extra
 
 set(EXTRA_SUFFIXES 0 1 4 5 E)
 set(EXTRA_HASHES
-    5b8f986f68c00b2cf06e8bbbdb479ab922ccc712b9a954aeaee215429cbf014c
+    4802af567e121923d505634c035f3926ff7d8a4c9b00c6e6e97fa498eb693ef0
     96376170ba02c4b4cb1e7b8ed35583e0b0ee0f9d90f39878086bba7728dd48c5
     5f17d37ce35d3b779df4dc482b775c86e083a0e0af28851fbe297a5364db6dfd
     b5f95d7f67ab88d43fe1c97d9c89f664427818a5c700b2b0d51c89daa379d5f1

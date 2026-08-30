@@ -32,6 +32,46 @@
 #include "findnorm.h"
 #include "misc.h"
 
+/* Source coordinates are integers, so an endpoint calculated from ideal
+   geometry can be displaced by up to the square root of half a coordinate
+   unit by rounding. */
+static Coord const LineEndRounding = 0.707107;
+
+static bool primitive_contains_shortened_line(
+    Primitive * const polygon,
+    Primitive const * const line,
+    VertexArray const * const varray,
+    Plane const plane)
+{
+  if (primitive_get_num_sides(line) != 2) {
+    return false;
+  }
+
+  _Optional Coord (* const start)[3] = vertex_array_get_coords(
+      varray, primitive_get_side(line, 0));
+  _Optional Coord (* const end)[3] = vertex_array_get_coords(
+      varray, primitive_get_side(line, 1));
+  if (!start || !end) {
+    return false;
+  }
+
+  Coord direction[3];
+  vector_sub(&*end, &*start, &direction);
+  Coord const length = vector_mag(&direction);
+  if (length <= LineEndRounding * 2) {
+    return false;
+  }
+
+  Coord adjustment[3];
+  vector_mul(&direction, LineEndRounding / length, &adjustment);
+  Coord short_start[3], short_end[3];
+  vector_add(&*start, &adjustment, &short_start);
+  vector_sub(&*end, &adjustment, &short_end);
+
+  return primitive_contains_point(polygon, varray, &short_start, plane) &&
+         primitive_contains_point(polygon, varray, &short_end, plane);
+}
+
 static _Optional Primitive *find_container_in_group(
                     const VertexArray *const varray, Primitive *const frontp,
                     const Group *const group, int back)
@@ -61,7 +101,8 @@ static _Optional Primitive *find_container_in_group(
     }
 
     /* Check that the front primitive is completely within the back polygon */
-    if (primitive_contains(&*backp, frontp, varray, plane)) {
+    if (primitive_contains(&*backp, frontp, varray, plane) ||
+        primitive_contains_shortened_line(&*backp, frontp, varray, plane)) {
       container = backp;
       DEBUGF("Found container %p\n", (void *)container);
     }

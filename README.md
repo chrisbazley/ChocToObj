@@ -484,6 +484,12 @@ line but a width specified by the user. This serves two purposes:
 2. It prevents the line from appearing disproportionately thin if the
    resolution of the frame buffer is higher than that used by the game.
 
+  Because model coordinates are integers, containment is tested again after
+temporarily shortening a line by half a coordinate unit at each end. The
+original coordinates are retained for output. This allows for endpoint
+rounding without treating a line which merely crosses or touches a polygon
+as a surface marking.
+
 4.8 Normal correction
 ---------------------
 
@@ -1157,6 +1163,12 @@ changing their visible area or colour.
 output. Earlier versions could emit the equivalent representation
 "-0.000000", most commonly after reversing the sign of a zero Z coordinate.
 
+  Lines that are inexactly contained by a coplanar polygon are now
+thickened anyway. This allows the containing polygon to be clipped against
+such lines, which can prevent "Z-fighting". This improves the appearence of
+many roads that previously lacked a proper middle stripe due to quantisation
+of coordinates.
+
 -----------------------------------------------------------------------------
 8  Program history
 ------------------
@@ -1204,6 +1216,8 @@ output. Earlier versions could emit the equivalent representation
 - Ordering of different vertices that have equal coordinates should now be
   stable instead of depending on the C library's implementation of qsort.
 - Zero coordinates in OBJ output are now written without a negative sign.
+- Lines that are inexactly contained by a coplanar polygon are now
+  thickened and clipped anyway (if configured to do both).
 
 -----------------------------------------------------------------------------
 9  Compiling the software
