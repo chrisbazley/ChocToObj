@@ -167,6 +167,9 @@ static bool process_file(const char * const model_file,
     fclose(&*index);
   }
 
+  /* This stream came from fopen only when output_file was specified; the
+     analyzer can incorrectly equate it with stdout at the index cleanup. */
+  // NOLINTNEXTLINE(clang-analyzer-unix.Stream)
   if (out != NULL && out != stdout) {
     if (flags & FLAGS_VERBOSE)
       puts("Closing output file");
