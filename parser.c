@@ -1544,7 +1544,7 @@ static bool process_object(Reader * const r, _Optional FILE * const out,
       DEBUGF("No need to renumber %d vertices\n", vobject);
     }
 
-    if (fprintf(out, "\no %s\n"
+    if (fprintf(&*out, "\no %s\n"
                      "# Simplification distance: %" PRId32 "\n"
                      "# Clip distance: %" PRId32 "\n"
                      "# Primitive style: %s\n",
@@ -1568,8 +1568,8 @@ static bool process_object(Reader * const r, _Optional FILE * const out,
       mstyle = MeshStyle_TriangleStrip;
     }
 
-    if (!output_vertices(out, vobject, varray, -1) ||
-        !output_primitives(out, object_name, *vtotal, vobject,
+    if (!output_vertices(&*out, vobject, varray, -1) ||
+        !output_primitives(&*out, object_name, *vtotal, vobject,
                            varray, *groups, ARRAY_SIZE(*groups),
                            (flags & FLAGS_FALSE_COLOUR) ?
                              get_false_colour : (OutputPrimitivesGetColourFn *)NULL,
@@ -1626,7 +1626,7 @@ bool choc_to_obj(Reader * const index, Reader * const models,
   assert(!(flags & ~FLAGS_ALL));
 
   if ((out != NULL) &&
-      fprintf(out, "# Chocks Away graphics\n"
+      fprintf(&*out, "# Chocks Away graphics\n"
                    "# Converted by ChoctoObj "VERSION_STRING"\n"
                    "mtllib %s\n", mtl_file) < 0) {
     fprintf(stderr, "Failed writing to output file: %s\n",
