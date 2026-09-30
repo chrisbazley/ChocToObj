@@ -179,6 +179,9 @@ static bool process_file(const char * const model_file,
                       STRING_OR_NULL(output_file), strerror(errno));
       success = false;
     }
+  } else if (out == stdout && fflush(stdout) == EOF) {
+    fprintf(stderr, "Failed to flush standard output: %s\n", strerror(errno));
+    success = false;
   }
 
   /* Delete malformed output unless debugging is enabled or
