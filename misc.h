@@ -7,7 +7,7 @@
 #ifndef MISC_H
 #define MISC_H
 
-#define PI (3.1415926535897896)
+#include "MacroUtils.h"
 
 /* Modify this definition for Unix or Windows file paths. */
 #ifndef PATH_SEPARATOR
@@ -19,11 +19,6 @@
 #define PATH_SEPARATOR '/'
 #endif
 #endif
-
-#define ARRAY_SIZE(array) (sizeof(array) / sizeof((array)[0]))
-
-/* Suppress compiler warnings about an unused function argument. */
-#define NOT_USED(x) ((void)(x))
 
 #ifdef FORTIFY
 #include "fortify.h"
@@ -53,7 +48,5 @@
 #else
 #define _Optional
 #endif
-
-#define STRING_OR_NULL(s) ((s) == NULL ? "" : &*(s))
 
 #endif /* MISC_H */
