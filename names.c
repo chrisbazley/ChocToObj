@@ -21,13 +21,14 @@
 /* ISO library header files */
 #include <stdio.h>
 
+#include "strb.h"
+
 /* Local header files */
 #include "names.h"
 #include "misc.h"
 
-const char *get_obj_name(const int index)
+int get_obj_name(strb_t *const name, const int index)
 {
-  static char buffer[64];
   static struct {
     int num;
     const char *string;
@@ -63,14 +64,13 @@ const char *get_obj_name(const int index)
   }
 
   if (n == NULL) {
-    sprintf(buffer, "chocks_%d", index);
-    n = buffer;
+    return strb_putf(name, "chocks_%d", index);
   }
 
-  return &*n;
+  return strb_puts(name, &*n);
 }
 
-const char *get_obj_name_extra(const int index)
+int get_obj_name_extra(strb_t *const name, const int index)
 {
   static struct {
     int num;
@@ -108,8 +108,8 @@ const char *get_obj_name_extra(const int index)
   }
 
   if (n == NULL) {
-    n = get_obj_name(index);
+    return get_obj_name(name, index);
   }
 
-  return &*n;
+  return strb_puts(name, &*n);
 }

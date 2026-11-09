@@ -7,7 +7,10 @@
 #ifndef CHOCNAMES_H
 #define CHOCNAMES_H
 
-const char *get_obj_name(int index);
-const char *get_obj_name_extra(int index);
+#include "strb.h"
+
+/* Write the object name at the current position; return EOF on failure, zero on success. */
+int get_obj_name(strb_t *name, int index);
+int get_obj_name_extra(strb_t *name, int index);
 
 #endif /* CHOCNAMES_H */
