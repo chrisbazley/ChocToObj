@@ -16,9 +16,9 @@ include MakeCommon
 
 DebugObjectsChoc = $(addprefix debug.,$(ObjectList))
 ReleaseObjectsChoc = $(addprefix o.,$(ObjectList))
-DebugLibs = C:o.Stubs C:o.Fortify C:o.CBDebugLib C:debug.CBUtilLib \
+DebugLibs = C:debug.strb C:o.Stubs C:o.Fortify C:o.CBDebugLib C:debug.CBUtilLib \
             C:debug.GKeyLib C:debug.StreamLib C:debug.3dObjLib
-ReleaseLibs = C:o.StubsG C:o.CBUtilLib C:o.GKeyLib C:o.StreamLib C:o.3dObjLib
+ReleaseLibs = C:o.strb C:o.StubsG C:o.CBUtilLib C:o.GKeyLib C:o.StreamLib C:o.3dObjLib
 
 # Final targets:
 all: ChocToObj ChocToObjD 

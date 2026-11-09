@@ -1680,9 +1680,13 @@ bool choc_to_obj(Reader * const index, Reader * const models,
       }
 
       /* Is this object the named one? */
-      const char * const object_name = (flags & FLAGS_EXTRA_MISSIONS) ?
-                                       get_obj_name_extra(object_count) :
-                                       get_obj_name(object_count);
+      STRB_DECL_FIXED(object_name_buffer, 64);
+      if ((flags & FLAGS_EXTRA_MISSIONS) ?
+          get_obj_name_extra(object_name_buffer, object_count) :
+          get_obj_name(object_name_buffer, object_count)) {
+        abort();
+      }
+      const char *const object_name = strb_cptr(object_name_buffer);
 
       if (name != NULL) {
         if (!strcmp(&*name, object_name)) {

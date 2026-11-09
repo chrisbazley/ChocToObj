@@ -16,8 +16,8 @@ include MakeCommon
 
 DebugObjectsChoc = $(addsuffix .debug,$(ObjectList))
 ReleaseObjectsChoc = $(addsuffix .o,$(ObjectList))
-DebugLibs = CBUtildbg Streamdbg GKeydbg 3dObjdbg m
-ReleaseLibs = CBUtil Stream GKey 3dObj m
+DebugLibs = strbdbg CBUtildbg Streamdbg GKeydbg 3dObjdbg m
+ReleaseLibs = strb CBUtil Stream GKey 3dObj m
 
 # Final targets:
 all: ChocToObj ChocToObjD 

@@ -12,7 +12,10 @@ FetchContent_Declare(CBUtil GIT_REPOSITORY https://github.com/chrisbazley/CBUtil
 FetchContent_Declare(Stream GIT_REPOSITORY https://github.com/chrisbazley/StreamLib.git GIT_TAG main)
 FetchContent_Declare(3dObj GIT_REPOSITORY https://github.com/chrisbazley/3dObjLib.git GIT_TAG main)
 
-FetchContent_MakeAvailable(CBUtil Stream 3dObj)
+FetchContent_Declare(strb GIT_REPOSITORY https://github.com/chrisbazley/strb_t.git
+    GIT_TAG 448f507d883fa2dc318bc16a7c15551f80a09ead)
+
+FetchContent_MakeAvailable(CBUtil Stream 3dObj strb)
 
 if(USE_OPTIONAL)
     if(NOT CMAKE_C_COMPILER_ID MATCHES "Clang|AppleClang")
@@ -103,6 +106,7 @@ file(GLOB HEADER_FILES CONFIGURE_DEPENDS "*.h")
 add_executable(ChocToObj ${SOURCES} ${HEADER_FILES})
 
 target_link_libraries(ChocToObj PRIVATE 
+    strb
     CBUtil
     Stream
     3dObj
