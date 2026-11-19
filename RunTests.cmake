@@ -14,12 +14,9 @@ else()
     set(TEST_DIR "${CMAKE_CURRENT_BINARY_DIR}/ChocToObj-test")
 endif()
 set(ISO "${TEST_DIR}/Flight_Simulator_Games_Collection.iso")
-set(REFERENCE_ARCHIVE "${TEST_DIR}/chocmesh.zip")
 set(DATA_DIR "${TEST_DIR}/data")
-set(REFERENCE_DIR "${TEST_DIR}/reference")
 set(OUTPUT_DIR "${TEST_DIR}/output")
-file(MAKE_DIRECTORY "${TEST_DIR}" "${DATA_DIR}" "${REFERENCE_DIR}"
-    "${OUTPUT_DIR}")
+file(MAKE_DIRECTORY "${TEST_DIR}" "${DATA_DIR}" "${OUTPUT_DIR}")
 
 message(STATUS "Downloading the APDL Flight Simulator Games Collection...")
 file(DOWNLOAD
@@ -46,32 +43,6 @@ execute_process(
 )
 if(NOT extract_result EQUAL 0)
     message(FATAL_ERROR "Failed to extract Chocks Away data")
-endif()
-
-message(STATUS "Downloading the published Chocks Away object meshes...")
-file(DOWNLOAD
-    "http://www.starfighter.acornarcade.com/mysite/download/chocmesh.zip"
-    "${REFERENCE_ARCHIVE}"
-    EXPECTED_HASH
-        SHA256=9c7c5f5029e8f821f89cd5ef3f98c7cfa64d7e8571813b6e931a59473d24029f
-    STATUS reference_download_status
-    SHOW_PROGRESS
-    TIMEOUT 60
-)
-list(GET reference_download_status 0 reference_download_result)
-list(GET reference_download_status 1 reference_download_error)
-if(NOT reference_download_result EQUAL 0)
-    message(FATAL_ERROR
-        "Failed to download reference data: ${reference_download_error}")
-endif()
-execute_process(
-    COMMAND "${CMAKE_COMMAND}" -E tar xvf "${REFERENCE_ARCHIVE}"
-    WORKING_DIRECTORY "${REFERENCE_DIR}"
-    RESULT_VARIABLE reference_extract_result
-    OUTPUT_QUIET
-)
-if(NOT reference_extract_result EQUAL 0)
-    message(FATAL_ERROR "Failed to extract reference data")
 endif()
 
 set(LAND "${DATA_DIR}/Land")
