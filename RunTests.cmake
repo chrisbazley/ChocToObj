@@ -87,13 +87,22 @@ function(convert_and_verify output expected_hash)
     execute_process(
         COMMAND "${CHOCTOOBJ}" ${ARGN} "${output_file}"
         RESULT_VARIABLE command_result
+        # A Debug conversion can write hundreds of MB of trace to stderr.
+        ERROR_FILE "${output_file}.log"
         OUTPUT_QUIET
     )
     if(NOT command_result EQUAL 0)
-        message(FATAL_ERROR
-            "Conversion of ${output}.obj failed with code ${command_result}")
+        file(SIZE "${output_file}.log" size)
+        if(size GREATER 4096)
+            math(EXPR start "${size} - 4096")
+        else()
+            set(start 0)
+        endif()
+        file(READ "${output_file}.log" tail OFFSET ${start})
+        message(FATAL_ERROR "Conversion of ${output}.obj failed with code ${command_result}\n${tail}")
     endif()
     verify_body_checksum("${output_file}" "${output}.obj" "${expected_hash}")
+    file(REMOVE "${output_file}.log")
 endfunction()
 
 function(expect_failure description expected_error)
