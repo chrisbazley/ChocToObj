@@ -13,14 +13,16 @@ FetchContent_Declare(Stream GIT_REPOSITORY https://github.com/chrisbazley/Stream
 FetchContent_Declare(3dObj GIT_REPOSITORY https://github.com/chrisbazley/3dObjLib.git GIT_TAG main)
 
 FetchContent_Declare(strb GIT_REPOSITORY https://github.com/chrisbazley/strb_t.git
-    GIT_TAG 448f507d883fa2dc318bc16a7c15551f80a09ead)
+    GIT_TAG fbc331ddc4a53b666e771787711a8e7afb24a3cf)
 
 FetchContent_MakeAvailable(CBUtil Stream 3dObj strb)
 
 if(USE_OPTIONAL)
-    if(NOT CMAKE_C_COMPILER_ID MATCHES "Clang|AppleClang")
-        message(FATAL_ERROR
-            "USE_OPTIONAL requires Christopher Bazley's Clang fork")
+    include(CheckCSourceCompiles)
+    check_c_source_compiles("_Optional int *p; int main(void) { return p != 0; }"
+        HAVE_C_OPTIONAL_QUALIFIER)
+    if(NOT HAVE_C_OPTIONAL_QUALIFIER)
+        message(FATAL_ERROR "USE_OPTIONAL requires compiler support for _Optional")
     endif()
 
     add_compile_definitions(USE_OPTIONAL)
