@@ -13,7 +13,7 @@ FetchContent_Declare(Stream GIT_REPOSITORY https://github.com/chrisbazley/Stream
 FetchContent_Declare(3dObj GIT_REPOSITORY https://github.com/chrisbazley/3dObjLib.git GIT_TAG main)
 
 FetchContent_Declare(strb GIT_REPOSITORY https://github.com/chrisbazley/strb_t.git
-    GIT_TAG fbc331ddc4a53b666e771787711a8e7afb24a3cf)
+    GIT_TAG main)
 
 FetchContent_MakeAvailable(CBUtil Stream 3dObj strb)
 
